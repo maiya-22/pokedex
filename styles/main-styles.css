@@ -1,4 +1,52 @@
 @import url("reset.css");
+
 body {
-    background-color: blue;
+    padding-top: 1.5rem;
+}
+
+#gridChanger {
+    position: absolute;
+    top: 0px;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 15px;
+    border: solid 1px darkgray;
+    transform: translate(20px, -50px);
+    transition: 1000ms;
+}
+#gridChanger:hover {
+    transform: translate(20px, 10px);
+    box-shadow: -5px 5px lightgray;
+}
+
+.idText {
+    font-size: 2rem;
+    color: magenta;
+    display: none;
+
+}
+
+/*  #FRAME OPTIONS:  */
+#frame {
+    display: grid;
+    height: 2400px;
+   
+}
+.frameRows {
+    grid-template-rows: repeat(6, 1fr);
+}
+
+.frameColumns {
+    grid-template-columns: repeat(6, 1fr);
+}
+
+#frame .section:nth-child(even) {
+    background-color: gray;
+}
+#frame .section:nth-child(odd) {
+    background-color: gainsboro;
+}
+
+.orange {
+    background-color: orange;
 }
