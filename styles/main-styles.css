@@ -30,15 +30,15 @@ body {
 #frame {
     display: grid;
     height: 2400px;
-   
-}
-.frameRows {
     grid-template-rows: repeat(6, 1fr);
+}
+/* .frameRows {
+    
 }
 
 .frameColumns {
     grid-template-columns: repeat(6, 1fr);
-}
+} */
 
 #frame .section:nth-child(even) {
     background-color: gray;
@@ -49,4 +49,23 @@ body {
 
 .orange {
     background-color: orange;
+}
+
+/* GRID ONE STYLES */
+#one {
+    display: grid;
+    grid-template-columns: 50px 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 0.5fr 0.5fr 1fr 1fr 1fr;
+}
+
+#one div {
+    border: solid turquoise 2px;
+}
+
+#one div:nth-child(1) {
+    grid-column: 2/3;
+}
+
+#one div:nth-child(5) {
+   
 }
