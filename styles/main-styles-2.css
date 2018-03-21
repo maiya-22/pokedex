@@ -4,8 +4,8 @@
     height: 100vh;
     width: 100vw;
     display: grid;
-    grid-template-columns: 1fr 400px 1fr;
-    grid-template-rows: 50px 500px 1fr;
+    grid-template-columns: 1fr 400px 1fr 400px 1fr 300px 1fr;
+    grid-template-rows: 50px 100px 200px 100px 200px 100px 1fr;
 
     /* grid-template-rows: calc(0.1 * vh) 400px 1fr; */
     background-image: url("../images/pokemon-preview/img-1.png");
@@ -16,19 +16,18 @@
     opacity: 1;
 
 }
-#testAnimation {
-  
+/* #testAnimation {
     height: 100px;
     width: 100%;
     background-color: rgba(142, 80, 205, 0.5);
     animation-name: slideInUp;
     animation-duration: 30ms;
     animation-fill-mode: forwards;
-}
+} */
 #pokedexWrap {
     opacity: 0.0;
-    grid-column: 2;
-    grid-row: 2;
+    grid-column: 4;
+    grid-row: 3/6;
     grid-area: "pokedex";
     background-color: rgb(176, 31, 31);
     border-radius: 15px;
@@ -66,11 +65,15 @@
 
 /* FLOATING DISPLAY */
 #floatingDisplay {
+    grid-column: 2;
+    grid-row: 2/5;
     background-color: rgba(128, 0, 128, 0.703);
 }
 
 /* FLOATING STATS */
 #floatingStats {
+    grid-column: -3/-2;
+    grid-row: 4/7;
     background-color: rgba(128, 128, 128, 0.552);
 }
 
