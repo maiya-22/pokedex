@@ -1,54 +1,59 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>css grid playgroud</title>
+    <title>pokedex</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" type="text/css" href="styles/main-styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="scripts/main-scripts.js"></script>
-  </head>
-  <body>
+</head>
 
-
+<body>
     <form id="gridChanger" action="">
-      <h1>grid playground</h1>
-      <select id="select-element" name="">
-      </select>
-      <select id="select-class" name=""></select>
-      <button id="set-style">go</button>
+        <h1>grid changer</h1>
+        <select id="select-element" name="">
+        </select>
+        <select id="select-class" name=""></select>
+        <button id="set-style">go</button>
     </form>
-  
- 
 
     <div id="frame">
-      <div id="one" class="section">
-        <!-- <p class="idText">1</p> -->
-          <div>Wernham-Hogg</div>
-          <div>two</div>
-          <div>three</div>
-          <div>four</div>
-          <div>five</div>
-          <div>six</div>
-      </div>
-      <div class="section" id="two">
-          <p class="idText">2</p>
-          
-      </div>
-      <div id="three" class="section">
-          <p class="idText">3</p>
-        </div>
-        <div class="section" id="four">
-            <p class="idText">4</p>
-        </div>
-        <div id="five" class="section">
-            <p class="idText">5</p>
-          </div>
-          <div class="section" id="six">
-              <p class="idText">6</p>
-          </div>
-      
-    </div>    
 
-  </body>
+        <!-- <h1>Pokemon Adventure</h1>
+  
+  
+  -->
+        <div id="floatingDisplay">
+
+        </div>
+        <div id="floatingStats">
+
+        </div>
+
+        <div id="pokedexWrap" class="slideInUp">
+            <div id="searchWrap">
+                <input type="text" placeholder="search">
+                <button id="goButton">go</button>
+            </div>
+            <div id="pokemonDisplay">
+            </div>
+            <div id="pokemonStats">
+                <div data="name">name</div>
+                <div data="power">power</div>
+                <div data="name">name</div>
+                <div data="name">name</div>
+                <div data="name">name</div>
+                <div data="name">name</div>
+                <div data="name">name</div>
+                <div data="name">name</div>
+                <div data="name">name</div>
+            </div>
+        </div>
+    </div>
+</body>
+
 </html>
