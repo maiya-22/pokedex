@@ -1,16 +1,16 @@
 /* eslint func-names: 0  no-unused-vars: 0 */
 $(() => {
   // #POKEMON API CODE:
-
-  console.log('connected');
   const pokemonDisplay = document.getElementById('pokemonDisplay');
   console.log(pokemonDisplay);
   // select an item and assign a click function to it:
   const goButton = document.getElementById('goButton');
   goButton.addEventListener('click', (evt) => {
     // $.ajax()
-    let name = document.getElementById('search').value;
-    name = name.toLowerCase();
+    const pokemonName = document.getElementById('search').value;
+    console.log(pokemonName);
+    // pokemonName = pokemonName.toLowerCase();
+    // console.log(pokemonName);
   });
 
   // make a list of stats to find and also change color of buttons when clicked:
@@ -24,7 +24,7 @@ $(() => {
     const target = e.target;
     const data = target.getAttribute('data');
     target.classList.add('pressed');
-    console.log(target);
+    // console.log(target);
   });
 
   const backgroundImages = '0001 0002 0003 0004'.split(' ').map(imageName => `${imageName}.jpg`);
@@ -59,4 +59,47 @@ $(() => {
     console.log('element: ', element);
     alert(element);
   });
+
+  // https://pokeapi.co/api/v2/pokemon/bulbasaur/
+
+  class Pokemon {
+    constructor(name, hp, attack, defense) {
+      this.name = name;
+      this.hp = hp; // number'
+      this.attack = attack;
+      this.defense = defense;
+    }
+    getPokemonByName(name) {
+      this.makeRequest(this.name);
+    }
+    makeRequest(query) {
+      const request = new XMLHttpRequest();
+      request.onreadystatechange = function () {
+        if (request.readyState == 4) {
+          switch (request.status) {
+            case 200:
+              console.log('status 200.');
+              console.log('request.responseText:', request.responseText);
+              break;
+            case 404:
+              console.log('404');
+              break;
+            case 500:
+              console.log('500');
+              break;
+            default:
+              console.log('There is no status');
+          }
+        }
+      };
+      const endpoint = query || 'bulbasaur';
+      request.open('GET', `${this.baseUrl}/${endpoint}/`);
+      request.send();
+    }
+  }
+  Pokemon.prototype.baseUrl = 'https://pokeapi.co/api/v2/pokemon';
+  const testPokemon = new Pokemon();
+  console.log(testPokemon.baseUrl);
+
+  testPokemon.makeRequest();
 });
