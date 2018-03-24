@@ -1,5 +1,23 @@
-/* eslint func-names: 0  no-unused-vars: 0 */
+/* eslint func-names: 0,  no-unused-vars: 0, no-alert: 0 */
 $(() => {
+  // 'https://pokeapi.co/api/v2/pokemon'
+
+  // const pokemon = 'pikachu';
+
+  // $.ajax({
+  //   url: 'https://pokeapi.co/api/v2/pokemon/',
+  //   // dataType: 'jsonp',
+  //   success(data) {
+  //     const pokemonName = data.results;
+  //     console.log('pokemon name: ', data);
+
+  //     //
+  //   },
+  //   error() {
+  //     console.log('ERROR!');
+  //   },
+  // });
+
   // #POKEMON API CODE:
   const pokemonDisplay = document.getElementById('pokemonDisplay');
   console.log(pokemonDisplay);
@@ -75,24 +93,20 @@ $(() => {
     makeRequest(query) {
       const request = new XMLHttpRequest();
       request.onreadystatechange = function () {
-        if (request.readyState == 4) {
-          switch (request.status) {
-            case 200:
-              console.log('status 200.');
-              console.log('request.responseText:', request.responseText);
-              break;
-            case 404:
-              console.log('404');
-              break;
-            case 500:
-              console.log('500');
-              break;
-            default:
-              console.log('There is no status');
+        if (request.readyState === 4) {
+          if (request.status === 200) {
+            const data = JSON.parse(request.responseText);
+            // const myData = request.responseText;
+            console.log(data);
+            // console.log('status 200.');
+            // console.log('request.responseText:', request.responseText);
+            // alert(`${request.status} ${request.statusText}`);
+          } else {
+            alert('there was some error');
           }
         }
       };
-      const endpoint = query || 'bulbasaur';
+      const endpoint = query || 'squirtle';
       request.open('GET', `${this.baseUrl}/${endpoint}/`);
       request.send();
     }
