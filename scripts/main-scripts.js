@@ -8,7 +8,46 @@ $(() => {
       // this.attack = attack;
       // this.defense = defense;
     }
-    makeRequest(pokemonName) {
+    fetchPokemonObject(pokemonName) {
+      const makeErrorGoAway = this.name;
+      $.ajax({
+        url: `https://pokeapi.co/api/v2/pokemon/${pokemonName}/`,
+        dataType: 'json',
+        success(data) {
+          console.log('data ', data);
+          return data;
+        },
+        error() {
+          console.log('ERROR');
+        },
+      });
+    }
+    makePokemonInstance(pokemonName) {
+      const pokemonInstance = new Pokemon(pokemonName);
+      console.log('pokemonInstance: ', pokemonInstance);
+    }
+
+    // create pokemon instance:
+
+    // display profile pic
+
+    // display stats
+
+    // $.ajax({
+    //   url: 'https://pokeapi.co/api/v2/pokemon/',
+    //   // dataType: 'jsonp',
+    //   success(data) {
+    //     const pokemonName = data.results;
+    //     console.log('pokemon name: ', data);
+
+    //     //
+    //   },
+    //   error() {
+    //     console.log('ERROR!');
+    //   },
+    // });
+
+    makeVanillaJSRequestPractice(pokemonName) {
       const request = new XMLHttpRequest();
       const endpoint = pokemonName || this.name || 'squirtle';
       request.open('GET', `${this.baseUrl}/${endpoint}/`);
@@ -25,13 +64,13 @@ $(() => {
             profilePic.src = picUrl;
             profilePic.style.width = '100%';
             floatingDisplay.appendChild(profilePic);
-            console.log(picUrl, profilePic, floatingDisplay);
+            // console.log(picUrl, profilePic, floatingDisplay);
 
             // console.log(data);
           } else {
             // if there is an error:
             alert('there was some error');
-            console.log('error message: ', request.statusText);
+            // console.log('error message: ', request.statusText);
           }
         }
       };
@@ -39,22 +78,25 @@ $(() => {
   }
   Pokemon.prototype.baseUrl = 'https://pokeapi.co/api/v2/pokemon';
 
+  // Make pokemon instance from prototype:
+  Pokemon.prototype.makePokemonInstance('dragonair');
+
   // MAKE POKEMON INSTANCES:
   const dragonair = new Pokemon('dragonair');
-  console.log(dragonair.baseUrl);
-  dragonair.makeRequest();
-
+  //  console.log(dragonair.baseUrl);
+  // dragonair.makeVanillaJSRequestPractice();
+  dragonair.fetchPokemonObject('dragonair');
   // 'https://pokeapi.co/api/v2/pokemon'
 
   // #POKEMON API CODE:
   const pokemonDisplay = document.getElementById('pokemonDisplay');
-  console.log(pokemonDisplay);
+  // console.log(pokemonDisplay);
   // select an item and assign a click function to it:
   const goButton = document.getElementById('goButton');
   goButton.addEventListener('click', (evt) => {
     // $.ajax()
     const pokemonName = document.getElementById('search').value.toLowerCase();
-    console.log(pokemonName);
+    // console.log(pokemonName);
   });
 
   const pokedexWrap = document.getElementById('pokedexWrap');
@@ -93,7 +135,7 @@ $(() => {
     const selectClassName = document.getElementById('select-class');
     const elementId = selectedElement.value;
     const element = document.getElementById(elementId);
-    console.log('element: ', element);
+    // console.log('element: ', element);
     alert(element);
   });
 
