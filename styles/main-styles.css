@@ -67,7 +67,7 @@ body {
 
   border: solid black 1px;
   opacity: 0;
-  animation-name: fadeIn;
+  animation-name: screenFadeIn;
   animation-duration: 2500ms;
   animation-fill-mode: forwards;
 }
@@ -98,7 +98,7 @@ body {
   border-radius: 15px;
   border: solid black 1px;
 
-  animation-name: appear;
+  animation-name: pokedexAppear;
   animation-duration: 2000ms;
   animation-direction: forwards;
   animation-fill-mode: forwards;
@@ -172,7 +172,19 @@ body {
 #floatingDisplay {
   grid-column: 2/4;
   grid-row: 2/6;
-  background-color: rgba(128, 0, 128, 0.4);
+  /* background-color: rgba(128, 0, 128, 0.4); */
+}
+.pokemonAppear {
+  opacity: 0;
+  width: 100%;
+  animation-name: pokemonAppear;
+  animation-duration: 2000ms;
+  animation-fill-mode: forwards;
+}
+.pokemonFlicker {
+  animation-name: pokemonFlicker;
+  animation-duration: 2000ms;
+  animation-fill-mode: forwards;
 }
 
 /* FLOATING STATS */
@@ -182,7 +194,22 @@ body {
   background-color: rgba(128, 128, 128, 0.552);
 }
 
-@keyframes appear {
+@keyframes screenFadeIn {
+  0% {
+    /* transform: rotate(0.125turn) scale(0); */
+    opacity: 0;
+  }
+  40% {
+    /* transform: scale(0.1); */
+    opacity: 0.06;
+  }
+  100% {
+    /* transform: rotate(0turn) scale(1); */
+    opacity: 1;
+  }
+}
+
+@keyframes pokedexAppear {
   0% {
     opacity: 0;
     transform: translate(0px, 800px) scale(0);
@@ -195,14 +222,22 @@ body {
     tranform: translate(0px, 0px) scale(1);
   }
 }
-@keyframes fadeIn {
+
+@keyframes pokemonAppear {
   0% {
     /* transform: rotate(0.125turn) scale(0); */
     opacity: 0;
   }
-  40% {
-    /* transform: scale(0.1); */
-    opacity: 0.06;
+  100% {
+    /* transform: rotate(0turn) scale(1); */
+    opacity: 1;
+  }
+}
+
+@keyframes pokemonFlicker {
+  0% {
+    /* transform: rotate(0.125turn) scale(0); */
+    opacity: 0;
   }
   100% {
     /* transform: rotate(0turn) scale(1); */
