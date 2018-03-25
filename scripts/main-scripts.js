@@ -1,8 +1,9 @@
-/* eslint func-names: 0,  no-unused-vars: 0, no-alert: 0, class-methods-use-this: 0 , no-plusplus: 0 , indend: 0 */
+/* eslint func-names: 0,  no-unused-vars: 0, no-alert: 0, class-methods-use-this: 0 , no-plusplus: 0 , indend: 0 , no-restricted-syntax: 0 */
 $(() => {
   // GLOBAL VARIABLES:
   const search = document.getElementById('search');
   const pokemonDisplay = document.getElementById('pokemonDisplay');
+  const floatingStats = document.getElementById('floatingStats');
   search.setAttribute('placeholder', 'waiting to load pokemon');
   // Pokemon class:
   class Pokemon {
@@ -93,8 +94,23 @@ $(() => {
         floatingDisplay.appendChild(img);
 
         // add stats:
+        const stats = pokemonObject.stats;
+        for (const stat in stats) {
+          if (stats.hasOwnProperty) {
+            const statDiv = document.createElement('div');
+            statDiv.innerHTML = `${stats[stat].stat.name} : ${stats[stat].base_stat}`;
+            const statButton = document.getElementById(stats[stat].stat.name);
+            if (statButton) {
+              statButton.innerHTML = `${stats[stat].stat.name} : ${stats[stat].base_stat}`;
+            }
+            // statButton.appendChild(statDiv);
+            floatingStats.appendChild(statDiv);
+            console.log('STAT', stats[stat].stat.name);
+            // console.log('STAT', stats[stat].base_stat);
+          }
+        }
       }
-      addPokemonToScreen(dragonair);
+      addPokemonToScreen(butterfree);
 
       // make search bar active:
       const searchWrap = document.getElementById('searchWrapInactive');
