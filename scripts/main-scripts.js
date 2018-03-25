@@ -24,20 +24,26 @@ $(() => {
       });
     }
     makePokemonInstance(pokemonName) {
-      Pokemon.prototype.pokemonObjectPromise(pokemonName).then((pokemonObject) => {
-        const { name, stats } = pokemonObject;
-
-        // console.log('pokemonObject: ', pokemonObject);
-        // console.log('pokemonObject.name: ', pokemonObject.name);
-        // console.log('pokemonObject.stats ', stats);
-        // stats.forEach((stat) => {
-        //   console.log('stat: ', stat);
-        // });
-      });
+      Pokemon.prototype
+        .pokemonObjectPromise(pokemonName)
+        .then((pokemonObject) => {
+          const { name, stats } = pokemonObject;
+          // console.log('name:  ', name);
+          // console.log('stats:  ', stats);
+          // window.pokemonName = new Pokemon(name, stats);
+          // return new Pokemon(name, stats);
+          this.pokemonInstances.pokemonName = new Pokemon(name, stats);
+          console.log(this.pokemonInstances.pokemonName);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }
   Pokemon.prototype.baseUrl = 'https://pokeapi.co/api/v2/pokemon';
-  Pokemon.prototype.makePokemonInstance('dragonair');
+  Pokemon.prototype.pokemonInstances = {};
+  const pikachu = Pokemon.prototype.makePokemonInstance('pikachu');
+  // console.log(pikachu);
 
   // #POKEMON API CODE:
   const pokemonDisplay = document.getElementById('pokemonDisplay');
