@@ -1,13 +1,14 @@
-/* eslint func-names: 0,  no-unused-vars: 0, no-alert: 0, class-methods-use-this: 0 , no-plusplus: 0 */
+/* eslint func-names: 0,  no-unused-vars: 0, no-alert: 0, class-methods-use-this: 0 , no-plusplus: 0 , indend: 0 */
 $(() => {
-  // POKEMON CLASS
   class Pokemon {
-    constructor(name, stats) {
+    constructor(name, sprites, stats) {
       this.name = name;
-      this.stats = stats;
-      // this.hp = hp; // number'
-      // this.attack = attack;
-      // this.defense = defense;
+      this.sprites = sprites;
+      this.pic = this.sprites.front_default;
+      this.stats = stats; // an array of objects
+      stats.forEach((stat) => {
+        this[stat.stat.name] = stat.base_stat; // assign the name of the stat to be its base value
+      });
     }
     pokemonObjectPromise(pokemonName) {
       const endpoint = pokemonName;
@@ -23,27 +24,29 @@ $(() => {
         };
       });
     }
-    makePokemonInstance(pokemonName) {
-      Pokemon.prototype
-        .pokemonObjectPromise(pokemonName)
-        .then((pokemonObject) => {
-          const { name, stats } = pokemonObject;
-          // console.log('name:  ', name);
-          // console.log('stats:  ', stats);
-          // window.pokemonName = new Pokemon(name, stats);
-          // return new Pokemon(name, stats);
-          this.pokemonInstances.pokemonName = new Pokemon(name, stats);
-          console.log(this.pokemonInstances.pokemonName);
-        })
-        .catch((err) => {
-          console.log(err);
+    makePokemonInstancePromise(pokemonName) {
+      return Pokemon.prototype.pokemonObjectPromise(pokemonName).then((pokemonObject) => {
+        const { name, stats, sprites } = pokemonObject;
+        console.log('pokemonObject: ', pokemonObject);
+        return new Promise((resolve, reject) => {
+          console.log('in the promise ... ');
+          const newPokemon = new Pokemon(name, sprites, stats);
+          resolve(newPokemon);
         });
+      });
     }
   }
   Pokemon.prototype.baseUrl = 'https://pokeapi.co/api/v2/pokemon';
   Pokemon.prototype.pokemonInstances = {};
-  const pikachu = Pokemon.prototype.makePokemonInstance('pikachu');
-  // console.log(pikachu);
+  let pikachu;
+  // Pokemon.prototype.makePokemonInstancePromise('dragonair').then((instance) => {
+  //   console.log('instance: ', instance);
+  // });
+  const makePokemon = Pokemon.prototype.makePokemonInstancePromise;
+
+  Promise.all([makePokemon('dragonair'), makePokemon('butterfree'), makePokemon('decidueye')]).then((values) => {
+    console.log(values);
+  });
 
   // #POKEMON API CODE:
   const pokemonDisplay = document.getElementById('pokemonDisplay');
