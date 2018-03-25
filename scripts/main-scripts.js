@@ -1,99 +1,43 @@
-/* eslint func-names: 0,  no-unused-vars: 0, no-alert: 0, class-methods-use-this: 0 */
+/* eslint func-names: 0,  no-unused-vars: 0, no-alert: 0, class-methods-use-this: 0 , no-plusplus: 0 */
 $(() => {
   // POKEMON CLASS
   class Pokemon {
-    constructor(name, hp, attack, defense) {
+    constructor(name, stats) {
       this.name = name;
+      this.stats = stats;
       // this.hp = hp; // number'
       // this.attack = attack;
       // this.defense = defense;
     }
-    pokePromise(pokemonName) {
+    pokemonObjectPromise(pokemonName) {
+      const endpoint = pokemonName;
       return new Promise((resolve, reject) => {
-        $.ajax({
-          url: `https://pokeapi.co/api/v2/pokemon/${pokemonName}/`,
-          dataType: 'json',
-          success(data) {
-            console.log('ONE: data from fetchPokemonObject: ', data);
-            // alert(data);
-            resolve(data);
-          },
-          error(err) {
-            console.log('ERROR');
-            reject(err);
-          },
-        });
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `${this.baseUrl}/${pokemonName}/`);
+        xhr.send();
+        xhr.onload = function () {
+          resolve(JSON.parse(xhr.responseText));
+        };
+        xhr.onerror = function () {
+          reject(xhr.statusText);
+        };
       });
     }
-    // fetchPokemonObject(pokemonName) {
-    //   $.ajax({
-    //     url: `https://pokeapi.co/api/v2/pokemon/${pokemonName}/`,
-    //     dataType: 'json',
-    //     success(data) {
-    //       console.log('data from fetchPokemonObject: ', data);
-    //       // alert(data);
-    //       return data;
-    //     },
-    //     error() {
-    //       console.log('ERROR');
-    //     },
-    //   });
-    // }
     makePokemonInstance(pokemonName) {
-      // this.fetchPokemonObject(pokemonName).then(data =>
-      //   console.log('hello from makepokeinst', data));
-      // fetch pokemon object
-      // then grab data
-      // then use data to make a new Pokemon instance
+      Pokemon.prototype.pokemonObjectPromise(pokemonName).then((pokemonObject) => {
+        const { name, stats } = pokemonObject;
+
+        // console.log('pokemonObject: ', pokemonObject);
+        // console.log('pokemonObject.name: ', pokemonObject.name);
+        // console.log('pokemonObject.stats ', stats);
+        // stats.forEach((stat) => {
+        //   console.log('stat: ', stat);
+        // });
+      });
     }
-
-    // makeVanillaJSRequestPractice(pokemonName) {
-    //   const request = new XMLHttpRequest();
-    //   const endpoint = pokemonName || this.name || 'squirtle';
-    //   request.open('GET', `${this.baseUrl}/${endpoint}/`);
-    //   request.send();
-    //   request.onreadystatechange = function () {
-    //     if (request.readyState === 4) {
-    //       if (request.status === 200) {
-    //         // success function:
-    //         const data = JSON.parse(request.responseText);
-    //         const picUrl = data.sprites.front_default;
-
-    //         const floatingDisplay = document.getElementById('floatingDisplay');
-    //         const profilePic = document.createElement('img');
-    //         profilePic.src = picUrl;
-    //         profilePic.style.width = '100%';
-    //         floatingDisplay.appendChild(profilePic);
-    //         // console.log(picUrl, profilePic, floatingDisplay);
-
-    //         // console.log(data);
-    //       } else {
-    //         // if there is an error:
-    //         alert('there was some error');
-    //         // console.log('error message: ', request.statusText);
-    //       }
-    //     }
-    //   };
-    // }
   }
   Pokemon.prototype.baseUrl = 'https://pokeapi.co/api/v2/pokemon';
-
-  // Make pokemon instance from prototype:
-  //  Pokemon.prototype.makePokemonInstance('dragonair');
-  // Pokemon.prototype.fetchPokemonObject('dragonair'); // this one is working
-  Pokemon.prototype.pokePromise('dragonair').then((data) => {
-    console.log('TWO: ', data);
-    return data;
-    // return Pokemon.prototype.pokePromise('pikachu');
-  });
-  // .then(data => console.log('THREE: ', data));
-
-  // MAKE POKEMON INSTANCES:
-  // const dragonair = new Pokemon('dragonair');
-  //  console.log(dragonair.baseUrl);
-  // dragonair.makeVanillaJSRequestPractice();
-  //  dragonair.fetchPokemonObject('dragonair');
-  // 'https://pokeapi.co/api/v2/pokemon'
+  Pokemon.prototype.makePokemonInstance('dragonair');
 
   // #POKEMON API CODE:
   const pokemonDisplay = document.getElementById('pokemonDisplay');
