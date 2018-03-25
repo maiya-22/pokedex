@@ -1,7 +1,8 @@
 /* eslint func-names: 0,  no-unused-vars: 0, no-alert: 0, class-methods-use-this: 0 , no-plusplus: 0 , indend: 0 */
 $(() => {
   class Pokemon {
-    constructor(name, sprites, stats) {
+    constructor(pokemonData) {
+      const { name, sprites, stats } = pokemonData;
       this.name = name;
       this.sprites = sprites;
       this.pic = this.sprites.front_default;
@@ -25,27 +26,26 @@ $(() => {
       });
     }
     makePokemonInstancePromise(pokemonName) {
-      return Pokemon.prototype.pokemonObjectPromise(pokemonName).then((pokemonObject) => {
-        const { name, stats, sprites } = pokemonObject;
-        console.log('pokemonObject: ', pokemonObject);
-        return new Promise((resolve, reject) => {
+      return Pokemon.prototype.pokemonObjectPromise(pokemonName).then(pokemonObject =>
+        new Promise((resolve, reject) => {
           console.log('in the promise ... ');
-          const newPokemon = new Pokemon(name, sprites, stats);
+          const newPokemon = new Pokemon(pokemonObject);
           resolve(newPokemon);
-        });
-      });
+        }));
     }
   }
   Pokemon.prototype.baseUrl = 'https://pokeapi.co/api/v2/pokemon';
-  Pokemon.prototype.pokemonInstances = {};
+  Pokemon.prototype.pokies = {};
   let pikachu;
   // Pokemon.prototype.makePokemonInstancePromise('dragonair').then((instance) => {
   //   console.log('instance: ', instance);
   // });
   const makePokemon = Pokemon.prototype.makePokemonInstancePromise;
-
-  Promise.all([makePokemon('dragonair'), makePokemon('butterfree'), makePokemon('decidueye')]).then((values) => {
-    console.log(values);
+  Promise.all([makePokemon('dragonair'), makePokemon('butterfree'), makePokemon('decidueye')]).then((pokemon) => {
+    pokemon.forEach((pokie) => {
+      Pokemon.prototype.pokies[pokie.name] = pokie;
+    });
+    console.log('pokies: ', Pokemon.prototype.pokies);
   });
 
   // #POKEMON API CODE:
