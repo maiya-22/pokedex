@@ -2,10 +2,12 @@
 $(() => {
   // GLOBAL VARIABLES:
   const search = document.getElementById('search');
+  const pokemonDisplay = document.getElementById('pokemonDisplay');
   search.setAttribute('placeholder', 'waiting to load pokemon');
   // Pokemon class:
   class Pokemon {
     constructor(pokemonData) {
+      this.allData = pokemonData;
       const { name, sprites, stats } = pokemonData;
       this.name = name;
       this.sprites = sprites;
@@ -34,44 +36,83 @@ $(() => {
     makePokemonInstancePromise(pokemonName) {
       return Pokemon.prototype.pokemonObjectPromise(pokemonName).then(pokemonObject =>
         new Promise((resolve, reject) => {
-          console.log('in the promise ... ');
+          // console.log('in the promise ... ');
           const newPokemon = new Pokemon(pokemonObject);
           resolve(newPokemon);
         }));
     }
+    loopThroughSprites() {
+      const { sprites } = this;
+      console.log(`${this.name}'s sprites: ${sprites}`);
+      for (const sprite in sprites) {
+        if (sprites.hasOwnProperty(sprite)) {
+          console.log(sprites[sprite]);
+        }
+      }
+    }
   }
   Pokemon.prototype.baseUrl = 'https://pokeapi.co/api/v2/pokemon';
-  // Where the pokemon instances are stored:
   Pokemon.prototype.pokemonGym = {};
   const makePokemon = Pokemon.prototype.makePokemonInstancePromise;
   // INVOKING THE POKEMON PROMISE TO RETURN POKEMON OBJECTS:
-  Promise.all([makePokemon('dragonair'), makePokemon('butterfree'), makePokemon('decidueye')]).then((pokemon) => {
-    // loop through the array of pokemon objects and create Pokemon instances
-    pokemon.forEach((pokie, index) => {
-      Pokemon.prototype.pokemonGym[pokie.name] = pokie;
-      Pokemon.prototype.pokemonGym[pokie.name].gymDisplayOrder = index;
-    });
-    console.log('pokemonGym: ', Pokemon.prototype.pokemonGym);
-    const { dragonair, butterfree, decidueye } = Pokemon.prototype.pokemonGym;
-    // const floatingDisplay = document.getElementById('floatingDisplay');
-    // const img = document.createElement('img');
-    // img.setAttribute('src', decidueye.pic);
-    // img.classList.add('pokemonAppear');
-    // floatingDisplay.appendChild(img);
+  Promise.all([makePokemon('dragonair'), makePokemon('butterfree'), makePokemon('charmeleon')])
+    .then((pokemon) => {
+      // pokemon objects have arrived:
 
-    const searchWrap = document.getElementById('searchWrapInactive');
-    if (searchWrap) {
-      searchWrap.id = 'searchWrapActive';
-      search.setAttribute('placeholder', 'the pokemon are in the gym');
-    }
-  });
+      // loop through the array of pokemon objects and create Pokemon instances
+      // and add them to the pokemon gym:
+      pokemon.forEach((pokie, index) => {
+        Pokemon.prototype.pokemonGym[pokie.name] = pokie;
+        Pokemon.prototype.pokemonGym[pokie.name].gymDisplayOrder = index;
+      });
+
+      // create variables that point to the pokemon in the gym:
+      console.log('pokemonGym: ', Pokemon.prototype.pokemonGym);
+      const { dragonair, butterfree, charmeleon } = Pokemon.prototype.pokemonGym;
+
+      // add gifs to pokemon instances:
+      dragonair.gif = 'http://www.pokestadium.com/sprites/xy/dragonair-2.gif';
+      butterfree.gif =
+        'http://rs744.pbsrc.com/albums/xx87/jessstaardust/tumblr_n1234ahMHc1s2qnyjo1_250_zpsa8f9c122.gif~c200';
+      charmeleon.gif =
+        'https://orig00.deviantart.net/5293/f/2016/030/b/7/charmeleon_gif_by_queenaries-d9px7h5.gif';
+
+      // add a pokemon to the floating display:
+
+      function addPokemonToScreen(pokemonObject) {
+        // add picture to display:
+        const pixImg = document.createElement('img');
+        pixImg.src = pokemonObject.pic;
+        pokemonDisplay.appendChild(pixImg);
+
+        // add gif to floating display:
+        const floatingDisplay = document.getElementById('floatingDisplay');
+        const img = document.createElement('img');
+        img.setAttribute('src', pokemonObject.gif);
+        img.classList.add('pokemonAppear');
+        floatingDisplay.appendChild(img);
+
+        // add stats:
+      }
+      addPokemonToScreen(dragonair);
+
+      // make search bar active:
+      const searchWrap = document.getElementById('searchWrapInactive');
+      if (searchWrap) {
+        searchWrap.id = 'searchWrapActive';
+        search.setAttribute('placeholder', 'the pokemon are in the gym');
+      }
+    })
+    .catch((err) => {
+      console.log(`error caught: ${err}`);
+    });
 
   // GLOBAL OBJECTS:
   const pokemonPositions = ['dragonair', 'butterfree', 'decidueye'];
   const selectedIndex = 0;
 
   // #POKEMON API CODE:
-  const pokemonDisplay = document.getElementById('pokemonDisplay');
+  // const pokemonDisplay = document.getElementById('pokemonDisplay');
   // console.log(pokemonDisplay);
   // select an item and assign a click function to it:
   const goButton = document.getElementById('goButton');
@@ -111,6 +152,7 @@ $(() => {
     newSelect.setAttribute('value', className);
     classSelector.appendChild(newSelect);
   });
+
   button.addEventListener('click', (evt) => {
     evt.preventDefault();
     const selectedElement = document.getElementById('select-element');
