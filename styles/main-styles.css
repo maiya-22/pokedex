@@ -117,27 +117,63 @@ body {
 #pokedexWrap div {
   width: 80%;
 }
-#searchWrap {
+
+/* ACTIVE SEARCH WRAP */
+#searchWrapActive {
   box-sizing: border-box;
   background-color: red;
-  /* grid-row: 1;
-    grid-column: 2; */
-  /* flex-grow: 0.5; */
+
+  opacity: 0;
+  animation-name: genericFadeIn;
+  animation-duration: 1000ms;
+  animation-fill-mode: forwards;
+
   height: 10%;
   display: flex;
   padding: 0.5rem;
   justify-content: center;
 }
-#searchWrap input {
+#searchWrapActive input {
   /* how to change color of default text? */
   flex-grow: 4;
   background-color: rgba(255, 140, 0, 0.579);
   border: none;
 }
-#searchWrap button {
+#searchWrapActive button {
+  flex-grow: 1;
+  border-radius: 15px;
+
+  opacity: 0;
+  animation-name: genericFadeIn;
+  animation-duration: 1000ms;
+  animation-fill-mode: forwards;
+  animation-delay: 500ms;
+}
+
+/* INACTIVE SEARCH WRAP */
+#searchWrapInactive {
+  box-sizing: border-box;
+  background-color: gray;
+  border-radius: 5px;
+  height: 10%;
+  display: flex;
+  padding: 0.5rem;
+  justify-content: center;
+}
+#searchWrapInactive input {
+  /* how to change color of default text? */
+  flex-grow: 4;
+  background-color: gray;
+  border: none;
+}
+#searchWrapInactive button {
+  background-color: gray;
+  color: gray;
+  border: gray;
   flex-grow: 1;
   border-radius: 15px;
 }
+
 #pokemonDisplay {
   background-color: white;
   border: dotted black 1px;
@@ -234,7 +270,7 @@ body {
   }
 }
 
-@keyframes pokemonFlicker {
+@keyframes genericFadeIn {
   0% {
     /* transform: rotate(0.125turn) scale(0); */
     opacity: 0;

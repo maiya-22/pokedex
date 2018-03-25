@@ -1,5 +1,9 @@
 /* eslint func-names: 0,  no-unused-vars: 0, no-alert: 0, class-methods-use-this: 0 , no-plusplus: 0 , indend: 0 */
 $(() => {
+  // GLOBAL VARIABLES:
+  const search = document.getElementById('search');
+  search.setAttribute('placeholder', 'waiting to load pokemon');
+  // Pokemon class:
   class Pokemon {
     constructor(pokemonData) {
       const { name, sprites, stats } = pokemonData;
@@ -11,6 +15,7 @@ $(() => {
         this[stat.stat.name] = stat.base_stat; // assign the name of the stat to be its base value
       });
     }
+    // Fetch the data from the api and return a promise:
     pokemonObjectPromise(pokemonName) {
       const endpoint = pokemonName;
       return new Promise((resolve, reject) => {
@@ -25,6 +30,7 @@ $(() => {
         };
       });
     }
+    // Use the pokemonObjectPromise to make an pokemon instance:
     makePokemonInstancePromise(pokemonName) {
       return Pokemon.prototype.pokemonObjectPromise(pokemonName).then(pokemonObject =>
         new Promise((resolve, reject) => {
@@ -35,18 +41,34 @@ $(() => {
     }
   }
   Pokemon.prototype.baseUrl = 'https://pokeapi.co/api/v2/pokemon';
-  Pokemon.prototype.pokies = {};
-  let pikachu;
-  // Pokemon.prototype.makePokemonInstancePromise('dragonair').then((instance) => {
-  //   console.log('instance: ', instance);
-  // });
+  // Where the pokemon instances are stored:
+  Pokemon.prototype.pokemonGym = {};
   const makePokemon = Pokemon.prototype.makePokemonInstancePromise;
+  // INVOKING THE POKEMON PROMISE TO RETURN POKEMON OBJECTS:
   Promise.all([makePokemon('dragonair'), makePokemon('butterfree'), makePokemon('decidueye')]).then((pokemon) => {
-    pokemon.forEach((pokie) => {
-      Pokemon.prototype.pokies[pokie.name] = pokie;
+    // loop through the array of pokemon objects and create Pokemon instances
+    pokemon.forEach((pokie, index) => {
+      Pokemon.prototype.pokemonGym[pokie.name] = pokie;
+      Pokemon.prototype.pokemonGym[pokie.name].gymDisplayOrder = index;
     });
-    console.log('pokies: ', Pokemon.prototype.pokies);
+    console.log('pokemonGym: ', Pokemon.prototype.pokemonGym);
+    const { dragonair, butterfree, decidueye } = Pokemon.prototype.pokemonGym;
+    // const floatingDisplay = document.getElementById('floatingDisplay');
+    // const img = document.createElement('img');
+    // img.setAttribute('src', decidueye.pic);
+    // img.classList.add('pokemonAppear');
+    // floatingDisplay.appendChild(img);
+
+    const searchWrap = document.getElementById('searchWrapInactive');
+    if (searchWrap) {
+      searchWrap.id = 'searchWrapActive';
+      search.setAttribute('placeholder', 'the pokemon are in the gym');
+    }
   });
+
+  // GLOBAL OBJECTS:
+  const pokemonPositions = ['dragonair', 'butterfree', 'decidueye'];
+  const selectedIndex = 0;
 
   // #POKEMON API CODE:
   const pokemonDisplay = document.getElementById('pokemonDisplay');
