@@ -110,7 +110,7 @@ $(() => {
           }
         }
       }
-      addPokemonToScreen(butterfree);
+      addPokemonToScreen(charmeleon);
 
       // make search bar active:
       const searchWrap = document.getElementById('searchWrapInactive');
