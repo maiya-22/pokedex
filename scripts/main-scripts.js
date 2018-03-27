@@ -1,6 +1,7 @@
   /* eslint func-names: 0,  no-unused-vars: 0, no-alert: 0, class-methods-use-this: 0 , no-plusplus: 0 , indend: 0 , no-restricted-syntax: 0 , no-use-before-define: 0 , no-loop-func: 0, func-names: 0, space-before-blocks: 0, indent: 0 */
 $(() => {
   // GLOBAL VARIABLES:
+  backgroundAnimation();
   const search = document.getElementById('search');
   const pokemonDisplay = document.getElementById('pokemonDisplay');
   const floatingStats = document.getElementById('floatingStats');

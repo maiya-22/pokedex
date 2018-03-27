@@ -1,0 +1,37 @@
+.displayedState {
+  opacity: 1;
+}
+
+.hiddenState {
+  opacity: 0;
+}
+
+.showingState {
+  animation-name: fadeIn;
+  animation-duration: 1000ms;
+  animation-fill-mode: forwards;
+}
+
+.hidingState {
+  animation-name: fadeOut;
+  animation-duration: 1000ms;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
