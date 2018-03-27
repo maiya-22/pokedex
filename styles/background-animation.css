@@ -8,13 +8,13 @@
 
 .showingState {
   animation-name: fadeIn;
-  animation-duration: 1000ms;
+  animation-duration: 2000ms;
   animation-fill-mode: forwards;
 }
 
 .hidingState {
   animation-name: fadeOut;
-  animation-duration: 1000ms;
+  animation-duration: 2000ms;
   animation-fill-mode: forwards;
 }
 

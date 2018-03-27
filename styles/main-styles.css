@@ -71,7 +71,7 @@ body {
   border-radius: 20px;
   grid-row: top/bottom;
   grid-column: left/right;
-  background-image: url("../images/pokemon-preview/img-0001.png");
+  /* background-image: url("../images/pokemon-preview/img-0001.png"); */
   /* background-color: olive; */
   background-size: cover; /*  100%; cover; */
   background-repeat: no-repeat;

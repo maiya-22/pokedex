@@ -43,6 +43,7 @@ $(() => {
           resolve(newPokemon);
         }));
     }
+
     loopThroughSprites() {
       const { sprites } = this;
       console.log(`${this.name}'s sprites: ${sprites}`);
@@ -189,21 +190,15 @@ $(() => {
   // display stats
 
   function backgroundAnimation(){
-  
-
-
-  // make image one cycle through all of the stages:
-  // need to: make
+  //make an array of the file-names in the folder:
   const numberOfImageFiles = 11;
   const imageFiles = [];
   const rootFileName = 'img-000';
   for (let i = 2; i < numberOfImageFiles; i++) {
     const fileName = `${rootFileName}${i}`;
     imageFiles[imageFiles.length] = fileName;
-    console.log(fileName);
   }
-
-  // const imageFiles = 'img-0001 img-0003 img-0004 img-0005 img-0006 img-0007 img-0008 img-0009 img-00010 img-00011 img-00012'.split(' ');
+  //first two files that animation will start with:
   const starterImage = 'black-image';
   const starterImageTwo = 'img-0001';
   let imageIndex = 0;
@@ -213,11 +208,11 @@ $(() => {
   makeDisplayedState(imageOne);
   setSource(imageTwo, starterImageTwo);
   let round = 0;
-  const rounds = imageFiles.length;
+  const rounds = 'infinite'; //imageFiles.length;
   let count = 0;
   let time = 0;
-  const transitionTime = 1000;
-  const displayTime = 1000;
+  const transitionTime = 2000;
+  const displayTime = 500;
   // run first cycle, because interval is spaced for time of slideshow
   showCycle();
   const setIntervalFunction = setInterval(() => {
@@ -246,7 +241,7 @@ $(() => {
       makeHiddenState(imageOne);
       makeDisplayedState(imageTwo);
     }, time);
-    time += transitionTime;
+    time += displayTime;
     // timeThree
     setTimeout(() => {
       // switch the images:
