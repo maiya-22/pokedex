@@ -1,4 +1,4 @@
-/* eslint func-names: 0,  no-unused-vars: 0, no-alert: 0, class-methods-use-this: 0 , no-plusplus: 0 , indend: 0 , no-restricted-syntax: 0 */
+  /* eslint func-names: 0,  no-unused-vars: 0, no-alert: 0, class-methods-use-this: 0 , no-plusplus: 0 , indend: 0 , no-restricted-syntax: 0 , no-use-before-define: 0 , no-loop-func: 0, func-names: 0, space-before-blocks: 0, indent: 0 */
 $(() => {
   // GLOBAL VARIABLES:
   const search = document.getElementById('search');
@@ -186,4 +186,115 @@ $(() => {
   // display profile pic
 
   // display stats
+
+  function backgroundAnimation(){
+  
+
+
+  // make image one cycle through all of the stages:
+  // need to: make
+  const numberOfImageFiles = 11;
+  const imageFiles = [];
+  const rootFileName = 'img-000';
+  for (let i = 2; i < numberOfImageFiles; i++) {
+    const fileName = `${rootFileName}${i}`;
+    imageFiles[imageFiles.length] = fileName;
+    console.log(fileName);
+  }
+
+  // const imageFiles = 'img-0001 img-0003 img-0004 img-0005 img-0006 img-0007 img-0008 img-0009 img-00010 img-00011 img-00012'.split(' ');
+  const starterImage = 'black-image';
+  const starterImageTwo = 'img-0001';
+  let imageIndex = 0;
+  let imageOne = document.getElementById('one');
+  let imageTwo = document.getElementById('two');
+  setSource(imageOne, starterImage);
+  makeDisplayedState(imageOne);
+  setSource(imageTwo, starterImageTwo);
+  let round = 0;
+  const rounds = imageFiles.length;
+  let count = 0;
+  let time = 0;
+  const transitionTime = 1000;
+  const displayTime = 1000;
+  // run first cycle, because interval is spaced for time of slideshow
+  showCycle();
+  const setIntervalFunction = setInterval(() => {
+    showCycle();
+  }, transitionTime + displayTime);
+  function showCycle() {
+    console.log(`round ${round}.  ImageOne: `, imageOne);
+    console.log(`round ${round}.  ImageTwo: `, imageTwo);
+    count++;
+    // timeOne:
+    time += transitionTime;
+    setTimeout(() => {
+      makeHidingState(imageOne);
+      const fileName = imageFiles[imageIndex];
+      // if (round === 0) {
+      //   fileName = 'black-image';
+      // }
+      setSource(imageTwo, fileName);
+      makeShowingState(imageTwo);
+      imageIndex++;
+      imageIndex = imageIndex === imageFiles.length ? 0 : imageIndex;
+    }, time);
+    time += transitionTime;
+    // timeTwo
+    setTimeout(() => {
+      makeHiddenState(imageOne);
+      makeDisplayedState(imageTwo);
+    }, time);
+    time += transitionTime;
+    // timeThree
+    setTimeout(() => {
+      // switch the images:
+      const tempImageElementHolder = imageOne;
+      imageOne = imageTwo;
+      imageTwo = tempImageElementHolder;
+      round++;
+      // if rounds is 'infinite' don't clear the interval
+      if (rounds !== 'infinite' && round === rounds - 1) {
+        clearInterval(setIntervalFunction);
+      }
+    }, time + 1);
+  }
+
+  function setSource(imageElement, fileName, format = 'png') {
+    const path = `images/pokemon-preview/${fileName}.${format}`;
+    imageElement.setAttribute('src', path);
+  }
+  function makeHiddenState(imageElement) {
+    // remove all other classes of state:
+    removeAllStatesExcept(imageElement, 'hidingState');
+    imageElement.classList.add('hiddenState');
+    imageElement.classList.remove('hidingState');
+  }
+  function makeShowingState(imageElement) {
+    removeAllStatesExcept(imageElement, 'hiddenState');
+    imageElement.classList.add('showingState');
+    // imageElement.classList.remove('hiddenState');
+  }
+  function makeDisplayedState(imageElement) {
+    removeAllStatesExcept(imageElement, 'showingState');
+    imageElement.classList.add('displayedState');
+    imageElement.classList.remove('showingState');
+  }
+  function makeHidingState(imageElement) {
+    removeAllStatesExcept(imageElement, 'displayedState');
+    imageElement.classList.add('hidingState');
+    imageElement.classList.remove('displayedState');
+  }
+  function removeAllStatesExcept(imageElement, exception) {
+    // console.log('classList:', imageElement.classList);
+    if (imageElement.classList) {
+      if (exception !== 'displayedState') imageElement.classList.remove('displayedState');
+      if (exception !== 'hiddenState') imageElement.classList.remove('hiddenState');
+      if (exception !== 'showingState') imageElement.classList.remove('showingState');
+      if (exception !== 'hidingState') imageElement.classList.remove('hidingState');
+    }
+  }
+
+
+  }
 });
