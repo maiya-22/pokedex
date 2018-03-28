@@ -2,7 +2,7 @@
 $(() => {
   // GLOBAL VARIABLES:
   // invoke global functions:
-  backgroundAnimation();
+  // backgroundAnimation();
   // global varibles:
   const search = document.getElementById('search');
   const pokemonDisplay = document.getElementById('pokemonDisplay');
@@ -49,6 +49,13 @@ $(() => {
       stats.forEach((stat) => {
         this[stat.stat.name] = stat.base_stat; // assign the name of the stat to be its base value
       });
+      this.simpleStats = {
+        attack: this.attack || 'no attack',
+        defense: this.defense || 'no defense',
+        'special-attack': this['special-attack'] || 'no special attack',
+        'special-defense': this['special-defense'] || 'no special defense',
+        speed: this.speed || 'no speed',
+      };
     }
     // Fetch the data from the api and return a promise:
     pokemonObjectPromise(pokemonName) {
@@ -104,12 +111,12 @@ $(() => {
       // create variables that point to the pokemon in the gym:
       const { dragonair, butterfree, charmeleon } = trainer.gym;
       // add gifs to pokemon instances:
-      dragonair.gif = 'http://www.pokestadium.com/sprites/xy/dragonair-2.gif';
-      butterfree.gif =
-        'http://rs744.pbsrc.com/albums/xx87/jessstaardust/tumblr_n1234ahMHc1s2qnyjo1_250_zpsa8f9c122.gif~c200';
-      charmeleon.gif =
-        'https://orig00.deviantart.net/5293/f/2016/030/b/7/charmeleon_gif_by_queenaries-d9px7h5.gif';
-
+      // dragonair.gif = 'http://www.pokestadium.com/sprites/xy/dragonair-2.gif';
+      // butterfree.gif =
+      //   'http://rs744.pbsrc.com/albums/xx87/jessstaardust/tumblr_n1234ahMHc1s2qnyjo1_250_zpsa8f9c122.gif~c200';
+      // charmeleon.gif =
+      //   'https://orig00.deviantart.net/5293/f/2016/030/b/7/charmeleon_gif_by_queenaries-d9px7h5.gif';
+      console.log(dragonair);
       // add a pokemon to the floating display:
 
       // want to put all of this code in the global scope:

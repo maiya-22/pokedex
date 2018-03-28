@@ -3,7 +3,7 @@
   /* set to the height and width of the frame */
   height: 40px;
   width: 40px;
-  animation: sparkle 2000ms steps(32);
+  animation: sparkle 2000ms steps(32) infinite;
 }
 
 /* set the position for each frame */
