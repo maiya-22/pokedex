@@ -1,5 +1,7 @@
 @import url("reset.css");
+@import url("animate.css");
 @import url("background-animation.css");
+@import url("sparkle-animation.css");
 
 body {
   display: flex;
@@ -8,7 +10,7 @@ body {
   align-content: center;
   height: 100vh;
   width: 100vw;
-  background-color: black;
+  /* background-color: black; */
 }
 
 #frame {
@@ -114,7 +116,8 @@ body {
 /* ACTIVE SEARCH WRAP */
 #searchWrapActive {
   box-sizing: border-box;
-  background-color: red;
+  background-color: magenta;
+  border-radius: 15px;
 
   opacity: 0;
   animation-name: genericFadeIn;
@@ -129,8 +132,12 @@ body {
 #searchWrapActive input {
   /* how to change color of default text? */
   flex-grow: 4;
-  background-color: rgba(255, 140, 0, 0.579);
+  background-color: gainsboro;
+  border-radius: 5px;
+  /* background-color: rgba(255, 140, 0, 0.579); */
   border: none;
+  text-align: center;
+  margin-right: 0.5rem;
 }
 #searchWrapActive button {
   flex-grow: 1;
@@ -240,6 +247,12 @@ body {
   animation-duration: 2000ms;
   animation-fill-mode: forwards;
 }
+.pokedexPokemonDisplayExit {
+  animation-name: flipOutY;
+  animation-duration: 1000ms;
+  animation-iteration-count: 1;
+  animation-direction: forwards;
+}
 
 /* FLOATING STATS */
 #floatingStats {
@@ -304,4 +317,9 @@ body {
     /* transform: rotate(0turn) scale(1); */
     opacity: 1;
   }
+}
+
+body * {
+  backgound-color: white;
+  border: solid orange 5px;
 }

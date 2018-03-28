@@ -1,11 +1,16 @@
 /* eslint func-names: 0,  no-unused-vars: 0, no-alert: 0, class-methods-use-this: 0 , no-plusplus: 0 , indend: 0 , no-restricted-syntax: 0 , no-use-before-define: 0 , no-loop-func: 0, func-names: 0, space-before-blocks: 0, indent: 0 */
 $(() => {
   // GLOBAL VARIABLES:
+  // invoke global functions:
   backgroundAnimation();
+  // global varibles:
   const search = document.getElementById('search');
   const pokemonDisplay = document.getElementById('pokemonDisplay');
   const floatingStats = document.getElementById('floatingStats');
   search.setAttribute('placeholder', 'waiting to load pokemon');
+  // DOM event-listeners
+
+  // Object Classes:
   // Trainer class:
   class Trainer {
     constructor(name) {
@@ -26,6 +31,9 @@ $(() => {
     }
     get gym() {
       return this.trainerGym;
+    }
+    addPokemon() {
+      // function to fetch a new pokemon and add it to the gym:
     }
   }
   const trainer = new Trainer('Chuck');
@@ -78,6 +86,7 @@ $(() => {
   }
   Pokemon.prototype.baseUrl = 'https://pokeapi.co/api/v2/pokemon';
   Pokemon.prototype.pokemonGym = {};
+
   const makePokemon = Pokemon.prototype.makePokemonInstancePromise;
   // INVOKING THE POKEMON PROMISE TO RETURN POKEMON OBJECTS:
   Promise.all([makePokemon('dragonair'), makePokemon('butterfree'), makePokemon('charmeleon')])
@@ -94,7 +103,6 @@ $(() => {
       });
       // create variables that point to the pokemon in the gym:
       const { dragonair, butterfree, charmeleon } = trainer.gym;
-
       // add gifs to pokemon instances:
       dragonair.gif = 'http://www.pokestadium.com/sprites/xy/dragonair-2.gif';
       butterfree.gif =
@@ -118,7 +126,13 @@ $(() => {
 
       function removePokemonFromScreen() {
         const pokedexPokemonDisplay = document.getElementById('pokedexPokemonDisplay');
-        if (pokedexPokemonDisplay) pokedexPokemonDisplay.remove();
+        if (pokedexPokemonDisplay) {
+          pokedexPokemonDisplay.classList.add('pokedexPokemonDisplayExit');
+          setTimeout(() => {
+            pokedexPokemonDisplay.remove();
+          }, 1500);
+        }
+
         console.log('pokedex: ', pokedexPokemonDisplay);
       }
 
