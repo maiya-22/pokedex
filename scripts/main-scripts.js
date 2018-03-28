@@ -124,11 +124,16 @@ $(() => {
         const pokemonName = document.getElementById('search').value.toLowerCase();
         const allNames = Object.keys(trainer.gym);
         if (allNames.includes(pokemonName)) {
-          const pokie = trainer.getPokemon(pokemonName);
-          // console.log(pokie);
+          const pokemonObject = trainer.getPokemon(pokemonName);
+          console.log('pokemon from trainer:', pokemonObject);
         }
         removePokemonFromScreen();
-        addPokemonToScreen(pokemonName);
+        console.log('looking for pokie');
+        // addPokemonToScreen(pokemonName); //first function - rough draft
+        const pokemonObject = trainer.gym[pokemonName];
+        displayPokemon(pokemonObject, pokemonName); // function to add all pokies
+        // access the pokemon object
+        // display the pokemon object on the screen:
       });
 
       function removePokemonFromScreen() {
@@ -215,12 +220,64 @@ $(() => {
     // console.log(target);
   });
 
+  // displayPokemon();
+
   // ANIMATION TO DISPLAY POKEMON
-  function displayPokemon(pokemonName) {
+  function displayPokemon(pokemonObject, pokemonName) {
     // display pic in pokedex:
     // display stats in pokedex
     // display giff animation
     // display stats animation
+
+    const { simpleStats } = pokemonObject;
+    renderStats(simpleStats, pokemonName);
+    function renderStats(stats, pokemonName) {
+      const container = document.getElementById('floatingStats');
+      const title = document.createElement('h1');
+      const formattedName = pokemonName[0].toUpperCase() + pokemonName.slice(1).toLowerCase();
+      const possessive = formattedName[formattedName.length - 1] === 's' ? '' : 's';
+      title.innerHTML = `${formattedName}'${possessive} stats:`;
+      container.prepend(title);
+      const statsWrap = container.querySelector('#statsWrap');
+      const statNames = Object.keys(stats);
+      // loop over statNames and create html for each stat:
+      statNames.forEach((stat) => {
+        console.log(stat);
+        // make a statWrap for each stat and add everything to it:
+        const statWrap = document.createElement('div');
+        statWrap.classList.add('statWrap');
+        statWrap.setAttribute('id', `${stat}Wrap`);
+
+        const statLabel = document.createElement('div');
+        statLabel.innerHTML = stat;
+        statWrap.appendChild(statLabel);
+
+        const statBarWrap = document.createElement('div');
+        statBarWrap.classList.add('statBarWrap');
+        // add boxes inside of the statBarWrap:
+        console.log('statBarWrap: ', statBarWrap);
+        for (let i = 0; i < simpleStats[stat]; i++) {
+          // if (i < simpleStats[stat]) {
+          setTimeout(() => {
+            const statBox = document.createElement('div');
+            statBox.classList.add('statBox');
+            statBarWrap.appendChild(statBox);
+
+            if (i === simpleStats[stat] - 1) {
+              const statNumberBox = document.createElement('div');
+              statNumberBox.classList.add('statNumberBox');
+              statNumberBox.innerHTML = stats[stat];
+              statBarWrap.appendChild(statNumberBox);
+            }
+          }, i * 40);
+          // }
+          statWrap.appendChild(statBarWrap);
+        }
+
+        // and end of loop:
+        statsWrap.appendChild(statWrap);
+      });
+    }
   }
 
   // BACKGROUND ANIMATION:
