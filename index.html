@@ -18,17 +18,22 @@
         </select>
         <select id="select-class" name=""></select>
         <button id="set-style">go</button>
+        <audio controls>
+            <source src="horse.ogg" type="audio/ogg">
+            <source src="horse.mp3" type="audio/mpeg"> Your browser does not support the audio tag.
+        </audio>
     </form>
 
     <div id="frame">
         <!-- <h1>Pokemon Adventure</h1>  
   -->
         <div id="backgroundSlideShow">
-            <img id="one" class="hiddenState" src="" alt="">
-            <img id="two" class="hiddenState" src="" alt="">
+            <div id="backgroundScreen"></div>
+            <div id="one" class="hiddenState"> </div>
+            <div id="two" class="hiddenState"></div>
         </div>
         <div id="floatingDisplay">
-            <div id="gradientDot"></div>
+
         </div>
         <div id="floatingStats">
         </div>
@@ -38,12 +43,11 @@
                 <button id="goButton">go</button>
             </div>
             <div id="pokemonDisplay">
-                <button>
+                <button id="backward">
                     <<</button>
-                        <button>>></button>
+                        <button id="forward">>></button>
             </div>
             <div>
-
             </div>
             <div id="pokemonStats">
                 <div data="power" id="hp">hp</div>

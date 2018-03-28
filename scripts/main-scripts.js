@@ -1,4 +1,4 @@
-  /* eslint func-names: 0,  no-unused-vars: 0, no-alert: 0, class-methods-use-this: 0 , no-plusplus: 0 , indend: 0 , no-restricted-syntax: 0 , no-use-before-define: 0 , no-loop-func: 0, func-names: 0, space-before-blocks: 0, indent: 0 */
+/* eslint func-names: 0,  no-unused-vars: 0, no-alert: 0, class-methods-use-this: 0 , no-plusplus: 0 , indend: 0 , no-restricted-syntax: 0 , no-use-before-define: 0 , no-loop-func: 0, func-names: 0, space-before-blocks: 0, indent: 0 */
 $(() => {
   // GLOBAL VARIABLES:
   backgroundAnimation();
@@ -6,6 +6,29 @@ $(() => {
   const pokemonDisplay = document.getElementById('pokemonDisplay');
   const floatingStats = document.getElementById('floatingStats');
   search.setAttribute('placeholder', 'waiting to load pokemon');
+  // Trainer class:
+  class Trainer {
+    constructor(name) {
+      this.name = name;
+      this.trainerGym = {};
+    }
+    get allPokemon() {
+      const allPokemon = [];
+      for (const pokemon in this.gym) {
+        if (this.gym.hasOwnProperty(pokemon)) {
+          allPokemon[allPokemon.length] = this.gym[pokemon];
+        }
+      }
+      return allPokemon;
+    }
+    getPokemon(pokemonName) {
+      return this.trainerGym[pokemonName];
+    }
+    get gym() {
+      return this.trainerGym;
+    }
+  }
+  const trainer = new Trainer('Chuck');
   // Pokemon class:
   class Pokemon {
     constructor(pokemonData) {
@@ -37,19 +60,18 @@ $(() => {
     // Use the pokemonObjectPromise to make an pokemon instance:
     makePokemonInstancePromise(pokemonName) {
       return Pokemon.prototype.pokemonObjectPromise(pokemonName).then(pokemonObject =>
-        new Promise((resolve, reject) => {
-          // console.log('in the promise ... ');
-          const newPokemon = new Pokemon(pokemonObject);
-          resolve(newPokemon);
-        }));
+          new Promise((resolve, reject) => {
+            // console.log('in the promise ... ');
+            const newPokemon = new Pokemon(pokemonObject);
+            resolve(newPokemon);
+          }));
     }
-
     loopThroughSprites() {
       const { sprites } = this;
-      console.log(`${this.name}'s sprites: ${sprites}`);
+      // console.log(`${this.name}'s sprites: ${sprites}`);
       for (const sprite in sprites) {
         if (sprites.hasOwnProperty(sprite)) {
-          console.log(sprites[sprite]);
+          // console.log(sprites[sprite]);
         }
       }
     }
@@ -61,17 +83,17 @@ $(() => {
   Promise.all([makePokemon('dragonair'), makePokemon('butterfree'), makePokemon('charmeleon')])
     .then((pokemon) => {
       // pokemon objects have arrived:
-
       // loop through the array of pokemon objects and create Pokemon instances
       // and add them to the pokemon gym:
       pokemon.forEach((pokie, index) => {
+        // Pokemon gym property to hold all pokemon
         Pokemon.prototype.pokemonGym[pokie.name] = pokie;
         Pokemon.prototype.pokemonGym[pokie.name].gymDisplayOrder = index;
+        // add pokemon to the trainer:
+        trainer.gym[pokie.name] = pokie;
       });
-
       // create variables that point to the pokemon in the gym:
-      console.log('pokemonGym: ', Pokemon.prototype.pokemonGym);
-      const { dragonair, butterfree, charmeleon } = Pokemon.prototype.pokemonGym;
+      const { dragonair, butterfree, charmeleon } = trainer.gym;
 
       // add gifs to pokemon instances:
       dragonair.gif = 'http://www.pokestadium.com/sprites/xy/dragonair-2.gif';
@@ -82,9 +104,29 @@ $(() => {
 
       // add a pokemon to the floating display:
 
-      function addPokemonToScreen(pokemonObject) {
+      // want to put all of this code in the global scope:
+      goButton.addEventListener('click', (evt) => {
+        const pokemonName = document.getElementById('search').value.toLowerCase();
+        const allNames = Object.keys(trainer.gym);
+        if (allNames.includes(pokemonName)) {
+          const pokie = trainer.getPokemon(pokemonName);
+          // console.log(pokie);
+        }
+        removePokemonFromScreen();
+        addPokemonToScreen(pokemonName);
+      });
+
+      function removePokemonFromScreen() {
+        const pokedexPokemonDisplay = document.getElementById('pokedexPokemonDisplay');
+        if (pokedexPokemonDisplay) pokedexPokemonDisplay.remove();
+        console.log('pokedex: ', pokedexPokemonDisplay);
+      }
+
+      function addPokemonToScreen(pokemonName) {
         // add picture to display:
+        const pokemonObject = trainer.getPokemon(pokemonName);
         const pixImg = document.createElement('img');
+        pixImg.setAttribute('id', 'pokedexPokemonDisplay');
         pixImg.src = pokemonObject.pic;
         pokemonDisplay.appendChild(pixImg);
 
@@ -107,12 +149,12 @@ $(() => {
             }
             // statButton.appendChild(statDiv);
             floatingStats.appendChild(statDiv);
-            console.log('STAT', stats[stat].stat.name);
+            // console.log('STAT', stats[stat].stat.name);
             // console.log('STAT', stats[stat].base_stat);
           }
         }
       }
-      addPokemonToScreen(charmeleon);
+      // addPokemonToScreen(butterfree);
 
       // make search bar active:
       const searchWrap = document.getElementById('searchWrapInactive');
@@ -129,16 +171,20 @@ $(() => {
   const pokemonPositions = ['dragonair', 'butterfree', 'decidueye'];
   const selectedIndex = 0;
 
-  // #POKEMON API CODE:
-  // const pokemonDisplay = document.getElementById('pokemonDisplay');
-  // console.log(pokemonDisplay);
-  // select an item and assign a click function to it:
+  // DOM ELEMENTS:
+  const forwardArrowButton = document.getElementById('forward');
+  const backwardArrowButton = document.getElementById('backward');
   const goButton = document.getElementById('goButton');
-  goButton.addEventListener('click', (evt) => {
-    // $.ajax()
-    const pokemonName = document.getElementById('search').value.toLowerCase();
-    // console.log(pokemonName);
+  // DOM EVENT-LISTENERS:
+  forwardArrowButton.addEventListener('click', () => {
+    // change view to pokemon to the right:
+    // trigger click-sound
   });
+  forwardArrowButton.addEventListener('click', () => {
+    // change view to pokemon to the left:
+    // trigger click-sound
+  });
+  // gets a pokemon and displays it:
 
   const pokedexWrap = document.getElementById('pokedexWrap');
   pokedexWrap.addEventListener('click', (e) => {
@@ -148,149 +194,115 @@ $(() => {
     // console.log(target);
   });
 
-  const backgroundImages = '0001 0002 0003 0004'.split(' ').map(imageName => `${imageName}.jpg`);
-
-  // #SET POP-DOWN BOX CODE:
-  const button = document.getElementById('set-style');
-  // re-factor this as reusable function:
-  const containerElements = 'frame one two three four five six'.split(' ');
-  const elementSelector = document.getElementById('select-element');
-  containerElements.forEach((element, index) => {
-    const newSelect = document.createElement('option');
-    newSelect.innerHTML = element;
-    newSelect.setAttribute('value', element);
-    elementSelector.appendChild(newSelect);
-  });
-
-  const classNames = 'this that and the other'.split(' ');
-  const classSelector = document.getElementById('select-class');
-  classNames.forEach((className, index) => {
-    const newSelect = document.createElement('option');
-    newSelect.innerHTML = className;
-    newSelect.setAttribute('value', className);
-    classSelector.appendChild(newSelect);
-  });
-
-  button.addEventListener('click', (evt) => {
-    evt.preventDefault();
-    const selectedElement = document.getElementById('select-element');
-    const selectClassName = document.getElementById('select-class');
-    const elementId = selectedElement.value;
-    const element = document.getElementById(elementId);
-    // console.log('element: ', element);
-    alert(element);
-  });
-
-  // https://pokeapi.co/api/v2/pokemon/bulbasaur/
-
-  // create pokemon instance:
-
-  // display profile pic
-
-  // display stats
-
-  function backgroundAnimation(){
-  //make an array of the file-names in the folder:
-  const numberOfImageFiles = 11;
-  const imageFiles = [];
-  const rootFileName = 'img-000';
-  for (let i = 2; i < numberOfImageFiles; i++) {
-    const fileName = `${rootFileName}${i}`;
-    imageFiles[imageFiles.length] = fileName;
-  }
-  //first two files that animation will start with:
-  const starterImage = 'black-image';
-  const starterImageTwo = 'img-0001';
-  let imageIndex = 0;
-  let imageOne = document.getElementById('one');
-  let imageTwo = document.getElementById('two');
-  setSource(imageOne, starterImage);
-  makeDisplayedState(imageOne);
-  setSource(imageTwo, starterImageTwo);
-  let round = 0;
-  const rounds = 'infinite'; //imageFiles.length;
-  let count = 0;
-  let time = 0;
-  const transitionTime = 2000;
-  const displayTime = 500;
-  // run first cycle, because interval is spaced for time of slideshow
-  showCycle();
-  const setIntervalFunction = setInterval(() => {
-    showCycle();
-  }, transitionTime + displayTime);
-  function showCycle() {
-    console.log(`round ${round}.  ImageOne: `, imageOne);
-    console.log(`round ${round}.  ImageTwo: `, imageTwo);
-    count++;
-    // timeOne:
-    time += transitionTime;
-    setTimeout(() => {
-      makeHidingState(imageOne);
-      const fileName = imageFiles[imageIndex];
-      // if (round === 0) {
-      //   fileName = 'black-image';
-      // }
-      setSource(imageTwo, fileName);
-      makeShowingState(imageTwo);
-      imageIndex++;
-      imageIndex = imageIndex === imageFiles.length ? 0 : imageIndex;
-    }, time);
-    time += transitionTime;
-    // timeTwo
-    setTimeout(() => {
-      makeHiddenState(imageOne);
-      makeDisplayedState(imageTwo);
-    }, time);
-    time += displayTime;
-    // timeThree
-    setTimeout(() => {
-      // switch the images:
-      const tempImageElementHolder = imageOne;
-      imageOne = imageTwo;
-      imageTwo = tempImageElementHolder;
-      round++;
-      // if rounds is 'infinite' don't clear the interval
-      if (rounds !== 'infinite' && round === rounds - 1) {
-        clearInterval(setIntervalFunction);
-      }
-    }, time + 1);
+  // ANIMATION TO DISPLAY POKEMON
+  function displayPokemon(pokemonName) {
+    // display pic in pokedex:
+    // display stats in pokedex
+    // display giff animation
+    // display stats animation
   }
 
-  function setSource(imageElement, fileName, format = 'png') {
-    const path = `images/pokemon-preview/${fileName}.${format}`;
-    imageElement.setAttribute('src', path);
-  }
-  function makeHiddenState(imageElement) {
-    // remove all other classes of state:
-    removeAllStatesExcept(imageElement, 'hidingState');
-    imageElement.classList.add('hiddenState');
-    imageElement.classList.remove('hidingState');
-  }
-  function makeShowingState(imageElement) {
-    removeAllStatesExcept(imageElement, 'hiddenState');
-    imageElement.classList.add('showingState');
-    // imageElement.classList.remove('hiddenState');
-  }
-  function makeDisplayedState(imageElement) {
-    removeAllStatesExcept(imageElement, 'showingState');
-    imageElement.classList.add('displayedState');
-    imageElement.classList.remove('showingState');
-  }
-  function makeHidingState(imageElement) {
-    removeAllStatesExcept(imageElement, 'displayedState');
-    imageElement.classList.add('hidingState');
-    imageElement.classList.remove('displayedState');
-  }
-  function removeAllStatesExcept(imageElement, exception) {
-    // console.log('classList:', imageElement.classList);
-    if (imageElement.classList) {
-      if (exception !== 'displayedState') imageElement.classList.remove('displayedState');
-      if (exception !== 'hiddenState') imageElement.classList.remove('hiddenState');
-      if (exception !== 'showingState') imageElement.classList.remove('showingState');
-      if (exception !== 'hidingState') imageElement.classList.remove('hidingState');
+  // BACKGROUND ANIMATION:
+  function backgroundAnimation() {
+    // make an array of the file-names in the folder:
+    const numberOfImageFiles = 11;
+    const imageFiles = [];
+    const rootFileName = 'img-000';
+    for (let i = 2; i < numberOfImageFiles; i++) {
+      const fileName = `${rootFileName}${i}`;
+      imageFiles[imageFiles.length] = fileName;
     }
-  }
-
-
+    // first two files that animation will start with:
+    const starterImage = 'black-image';
+    const starterImageTwo = 'img-0001';
+    let imageIndex = 0;
+    let imageOne = document.getElementById('one');
+    let imageTwo = document.getElementById('two');
+    setSource(imageOne, starterImage);
+    makeDisplayedState(imageOne);
+    setSource(imageTwo, starterImageTwo);
+    let round = 0;
+    const rounds = 'infinite'; // imageFiles.length; //the total # of rounds or cycles to run
+    let count = 0;
+    let time = 0;
+    const transitionTime = 2000;
+    const displayTime = 500;
+    // run first cycle, because interval is spaced for time of slideshow
+    showCycle();
+    const setIntervalFunction = setInterval(() => {
+      showCycle();
+    }, transitionTime + displayTime);
+    function showCycle() {
+      // console.log(`round ${round}.  ImageOne: `, imageOne);
+      // console.log(`round ${round}.  ImageTwo: `, imageTwo);
+      count++;
+      // timeOne:
+      time += transitionTime;
+      setTimeout(() => {
+        makeHidingState(imageOne);
+        const fileName = imageFiles[imageIndex];
+        setSource(imageTwo, fileName);
+        makeShowingState(imageTwo);
+        imageIndex++;
+        imageIndex = imageIndex === imageFiles.length ? 0 : imageIndex;
+      }, time);
+      time += transitionTime;
+      // timeTwo
+      setTimeout(() => {
+        makeHiddenState(imageOne);
+        makeDisplayedState(imageTwo);
+      }, time);
+      time += displayTime;
+      // timeThree
+      setTimeout(() => {
+        // switch the images:
+        const tempImageElementHolder = imageOne;
+        imageOne = imageTwo;
+        imageTwo = tempImageElementHolder;
+        round++;
+        // if rounds is 'infinite' don't clear the interval
+        if (rounds !== 'infinite' && round === rounds - 1) {
+          clearInterval(setIntervalFunction);
+        }
+      }, time + 1);
+    }
+    function setSource(divElement, fileName, format = 'png') {
+      const path = `images/pokemon-preview/${fileName}.${format}`;
+      // imageElement.setAttribute('src', path);
+      // document.body.style.backgroundImage = "url('img_tree.png')";
+      divElement.style.backgroundImage = `url('${path}')`;
+      // console.log('divElement: ', divElement);
+      // divElement.style.backgroundSize = `contain`;
+    }
+    function makeHiddenState(imageElement) {
+      // remove all other classes of state:
+      removeAllStatesExcept(imageElement, 'hidingState');
+      imageElement.classList.add('hiddenState');
+      imageElement.classList.remove('hidingState');
+    }
+    function makeShowingState(imageElement) {
+      removeAllStatesExcept(imageElement, 'hiddenState');
+      imageElement.classList.add('showingState');
+      // imageElement.classList.remove('hiddenState');
+    }
+    function makeDisplayedState(imageElement) {
+      removeAllStatesExcept(imageElement, 'showingState');
+      imageElement.classList.add('displayedState');
+      imageElement.classList.remove('showingState');
+    }
+    function makeHidingState(imageElement) {
+      removeAllStatesExcept(imageElement, 'displayedState');
+      imageElement.classList.add('hidingState');
+      imageElement.classList.remove('displayedState');
+    }
+    function removeAllStatesExcept(imageElement, exception) {
+      // console.log('classList:', imageElement.classList);
+      if (imageElement.classList) {
+        if (exception !== 'displayedState') imageElement.classList.remove('displayedState');
+        if (exception !== 'hiddenState') imageElement.classList.remove('hiddenState');
+        if (exception !== 'showingState') imageElement.classList.remove('showingState');
+        if (exception !== 'hidingState') imageElement.classList.remove('hidingState');
+      }
+    }
   }
 });
