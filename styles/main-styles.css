@@ -166,6 +166,8 @@ body {
   /* grid-row: 2;
     grid-column: 2; */
   height: 30%;
+  display: flex;
+  justify-content: center;
 }
 
 #pokemonDisplay img {
@@ -174,25 +176,29 @@ body {
 }
 
 #pokemonStats {
-  /* IS A FLEX ITEM */
-  /* height: 40%; */
-  /* flex-grow: 1; */
-  /* background-color: pink; */
-
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: 70px 70px;
   grid-column-gap: 10px;
   grid-row-gap: 10px;
 }
+
 #pokemonStats div {
   width: 100%;
   background: black;
   color: white;
   border-radius: 15px;
   height: 100%;
+  display: grid;
+  justify-content: center;
+  align-items: center;
 }
-.pressed {
+#pokemonStats div p {
+  display: inline-block;
+  /* border: 1px lime dotted; */
+}
+
+#pokemonStatd .pressed {
   border: dotted magenta 3px;
 }
 
@@ -294,12 +300,43 @@ body {
 
 @media only screen and (max-width: 600px) {
   body {
-    background-color: lightblue;
+    background-color: black;
+    display: grid;
+    grid-template-columns: 1fr;
   }
-  #frame,
+  /* #frame,
   #backgroundSlideShow,
   #one,
-  #two {
+  #two,
+  body {
+    grid-row-start: 1;
+    grid-row-end: 2;
+    width: 600px;
     height: 1800px;
+  } */
+  #frame {
+    grid-template-columns: [left] 1fr [content-left] 450px [content-right] 1fr[right];
+    grid-template-rows: [top] 150px [float-top] 400px [float-bottom] 50px [pdex-top] 600px [pdex-bottom] 50px [stats-top] 400px [stats-bottom] 150px [bottom];
+  }
+  #pokedexWrap,
+  #floatingDisplay,
+  #floatingStats {
+    grid-column-start: content-left;
+    grid-column-end: content-right;
+  }
+  #pokedexWrap {
+    grid-row-start: pdex-top;
+    grid-row-end: pdex-bottom;
+  }
+  #floatingDisplay {
+    grid-row-start: 2;
+    grid-row-end: 3;
+    background-color: rgba(128, 0, 128, 0.381);
+    /* height: 400px; */
+  }
+  #floatingStats {
+    grid-row-start: stats-top;
+    grid-row-end: stats-bottom;
+    background-color: rgba(172, 255, 47, 0.442);
   }
 }

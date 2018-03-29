@@ -63,8 +63,8 @@ body {
 #statLabel {
   font-weight: 400;
   font-size: 1.5rem;
-  color: rgba(230, 117, 211, 0.878);
-  text-shadow: -5px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+  color: rgba(117, 230, 138, 0.887);
+  /* text-shadow: -5px 0 white, 0 1px white, 1px 0 white, 0 -1px white; */
   /* color: white; */
 
   /* font-size: 2rem; */
