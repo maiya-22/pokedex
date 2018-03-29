@@ -76,14 +76,12 @@ $(() => {
   Trainer.prototype.get = Trainer.prototype.getPokemonPromise;
 
   const trainer = new Trainer('Chuck');
-
   console.log(trainer);
-
   // click button to pre-load my three pokemon and add to trainer gym:
   //  once the pokemon are loaded, the search-bar will become active:
   const preLoadPokemonButton = document.getElementById('preLoadPokemon');
   preLoadPokemonButton.addEventListener('click', () => {
-    console.log('clicked');
+    console.log("Fetch trainer's pokemon clicked");
     // to do: grab search bar and change placeholder-text to 'waiting for pokemon to arrive'
     Trainer.prototype
       .getPokemonPromise('dragonair')
@@ -145,12 +143,6 @@ $(() => {
         pokedexDisplayPic.remove();
       }, 1500);
     }
-
-    //   for (var i = 1; i < 8; i++ ) {
-    //     var d = document.getElementById(i);
-    //     d.parentNode.removeChild(d);
-    // }
-    // remove from floating display:
     const floatingImage = document.getElementById('floatingGifImage');
     if (floatingImage) {
       const floatingImageParent = floatingImage.parentNode;
@@ -204,27 +196,33 @@ $(() => {
     const { stats } = pokemonObject;
     renderStats(stats, pokemonName);
     function renderStats(stats, pokemonName) {
+      // to do: this element might nnot be necessary:
       const container = document.getElementById('floatingStats');
-      console.log('** container: ', container);
+      // console.log('** container: ', container);
       // const title = document.createElement('h1');
       // const formattedName = pokemonName[0].toUpperCase() + pokemonName.slice(1).toLowerCase();
       // const possessive = formattedName[formattedName.length - 1] === 's' ? '' : 's';
       // title.innerHTML = `${formattedName}'${possessive} stats:`;
       // container.prepend(title);
+
+      // GET THE STATS WRAP DIV FROM THE DOM
       const statsWrap = document.querySelector('#statsWrap');
-      console.log('** statsWrap: ', statsWrap);
-      console.log('** stats: ', stats);
+      // console.log('** statsWrap: ', statsWrap);
+      // console.log('** stats: ', stats);
       const statNames = Object.keys(stats);
+
       // loop over statNames and create html for each stat:
       statNames.forEach((stat) => {
         console.log(stat);
         // make a statWrap for each stat and add everything to it:
         const statWrap = document.createElement('div');
         statWrap.classList.add('statWrap');
-        statWrap.setAttribute('id', `${stat}Wrap`);
+        // statWrap.setAttribute('id', `${stat}Wrap`);
+        statWrap.setAttribute('id', 'statTitle');
 
         const statLabel = document.createElement('div');
-        statLabel.innerHTML = stat;
+        statLabel.setAttribute('id', 'statLabel');
+        statLabel.innerHTML = `${stat}:  `;
         statWrap.appendChild(statLabel);
 
         const statBarWrap = document.createElement('div');

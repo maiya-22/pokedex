@@ -10,6 +10,8 @@
   left: 0px;
   border-radius: 20px;
   border: solid black 10px;
+  background-position: center;
+  background-size: cover;
 }
 
 .displayedState {

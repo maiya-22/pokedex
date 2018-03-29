@@ -5,10 +5,6 @@ body {
   font-family: sans-serif;
 }
 
-#statsWrap {
-  /* border: orange dotted 5px; */
-}
-
 .statWrap {
   width: 100%;
   /* border: dotted green 5px; */
@@ -32,25 +28,53 @@ body {
 .statBox {
   background-color: magenta;
   border-radius: 3px;
-  border: solid whitesmoke 1px;
+  border: solid magenta 1px;
   animation-name: statFadeIn;
   animation-duration: 1000ms;
   animation-direction: forwards;
   animation-fill-mode: both;
   animation-delay: 500ms;
+  /*  */
 }
 
 .statNumberBox {
+  color: white;
   padding-top: 10px;
   padding-left: 2rem;
+  padding-right: 2rem;
   width: 1rem;
   height: 1rem;
   font-weight: bold;
   transform: scale(300%);
-  6animation-name: rubberBand;
+  animation-name: rubberBand;
   animation-duration: 1000ms;
   animation-iteration-count: 1;
   animation-fill-mode: both;
+  box-shadow: 0 0 50px rgba(255, 255, 255, 0.73),
+    /* inner white */ 20px 0 80px rgba(255, 0, 255, 0.593),
+    /* inner left magenta short */ -20px 0 80px rgba(0, 255, 255, 0.661),
+    /* inner right cyan short */ 20px 0 300px rgba(0, 234, 255, 0.579),
+    /* inner left magenta broad */ -20px 0 300px rgba(0, 255, 255, 0.703),
+    /* inner right cyan broad */ 0 0 50px #fff,
+    /* outer white */ -10px 0 80px rgba(0, 200, 255, 0.579),
+    /* outer left magenta */ 10px 0 80px rgba(0, 255, 255, 0.62);
+}
+
+#statLabel {
+  font-weight: 400;
+  font-size: 1.5rem;
+  color: rgba(230, 117, 211, 0.878);
+  text-shadow: -5px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+  /* color: white; */
+
+  /* font-size: 2rem; */
+  /* border: orange dotted 5px; */
+  /* border-radius: 10px; */
+  /* background-color: white; */
+
+  z-index: 2;
+  padding: 0px;
+  border-radius: 5px;
 }
 
 @keyframes statFadeIn {
