@@ -84,6 +84,7 @@ $(() => {
   const preLoadPokemonButton = document.getElementById('preLoadPokemon');
   preLoadPokemonButton.addEventListener('click', () => {
     console.log('clicked');
+    // to do: grab search bar and change placeholder-text to 'waiting for pokemon to arrive'
     Trainer.prototype
       .getPokemonPromise('dragonair')
       .then((pokemon) => {
@@ -137,12 +138,29 @@ $(() => {
   Pokemon.prototype.removePokemonFromDisplay = function () {
     // remove from pokedex display:
     // to do: fix timing on this:
-    const pokedexPokemonDisplay = document.getElementById('pokedexPokemonDisplay');
-    if (pokedexPokemonDisplay) {
-      pokedexPokemonDisplay.classList.add('pokedexPokemonDisplayExit');
+    const pokedexDisplayPic = document.getElementById('pokemonPic');
+    if (pokedexDisplayPic) {
+      pokedexDisplayPic.classList.add('pokedexPokemonDisplayExit');
       setTimeout(() => {
-        pokedexPokemonDisplay.remove();
+        pokedexDisplayPic.remove();
       }, 1500);
+    }
+
+    //   for (var i = 1; i < 8; i++ ) {
+    //     var d = document.getElementById(i);
+    //     d.parentNode.removeChild(d);
+    // }
+    // remove from floating display:
+    const floatingImage = document.getElementById('floatingGifImage');
+    if (floatingImage) {
+      const floatingImageParent = floatingImage.parentNode;
+      alert(floatingImageParent);
+      floatingImageParent.removeChild(floatingImage);
+      // console.log('floatingImage: ', floatingImage);
+      // add an exit animation with a duration
+      // setTimeout for that duration, and remove the image from DOM:
+      // floatingImage.remove();
+      alert('need to remove floating image');
     }
   };
   // to do: put this closer to the Pokemon class:
@@ -156,15 +174,21 @@ $(() => {
     Pokemon.prototype.removePokemonFromDisplay();
     // render pic to pokedex display:
     const pixImg = document.createElement('img');
-    pixImg.setAttribute('id', 'pokedexPokemonDisplay');
+    pixImg.setAttribute('id', 'pokemonPic');
     pixImg.src = pokemonObject.pic;
     pokemonDisplay.appendChild(pixImg);
-
+    console.log('pixImg: ', pixImg);
     // see which stats are active:
 
     // render stats to floating stats display:
 
     // render gif to floating display
+    const floatingDisplay = document.getElementById('floatingDisplay');
+    const img = document.createElement('img');
+    img.setAttribute('id', 'floatingGifImage');
+    img.setAttribute('src', pokemonObject.gif);
+    img.classList.add('pokemonAppear');
+    floatingDisplay.appendChild(img);
   };
 
   // BELOW HERE IS WORKING:
