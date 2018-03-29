@@ -160,8 +160,16 @@ $(() => {
       // add an exit animation with a duration
       // setTimeout for that duration, and remove the image from DOM:
       // floatingImage.remove();
-      alert('need to remove floating image');
     }
+    // remove from stats:
+    // <div id="floatingStats" permanent in html
+    //  <div id="statsWrap" permanent in html:
+    // <statWrap id="statName" --> one added for each stat
+    const statsWrap = document.getElementById('statsWrap');
+    console.log('** statsWrap: ', statsWrap);
+    // add a class to fade out the children of the statsWrap
+    // setTimeout to length of fade out:
+    statsWrap.innerHTML = '';
   };
   // to do: put this closer to the Pokemon class:
   // to do: re-factor, so that it renders from an instance,
