@@ -23,58 +23,54 @@ body {
   margin: auto;
   position: relative;
   display: grid;
-  grid-template-columns: [left] 1fr [display-left] 1fr [display-right] 1fr [pokedex-left] 1fr [pokedex-right] 1fr [stats-left] 1fr [stats-right] 1fr [right];
-  grid-template-rows: [top] 1fr 1fr 1fr 1fr[stat-top] 1fr 1fr 1fr 1fr [stat-bottom]1fr 1fr 1fr [bottom];
-  /* grid-template-areas:
-    "one  two  three    four      five     six          seven    eight  nine  ten"
-    "one  two  three    four      five     six          seven    eight  nine  ten"
-    "one  two  three    four      pokedex  pokedex      seven    eight  nine  ten"
-    "one  two  three    four      pokedex  pokedex      seven    eight  nine  ten"
-    "one  two  three    four      pokedex  pokedex      seven    eight  nine  ten"
-    "one  two  three    four      pokedex  pokedex      seven    eight  nine  ten"
-    "one  two  three    four      pokedex  pokedex      seven    eight  nine  ten"
-    "one  two  three    four      pokedex  pokedex      seven    eight  nine  ten"
-    "one  two  three    fourTwo   fiveTwo  sixTwo       seven    eight  nine  ten"
-    "one  two  three    fourTwo   fiveTwo  sixTwo       seven    eight  nine  ten"
-    "one  two  three    fourTwo   fiveTwo  sixTwo       seven    eight  nine  ten"; */
-
-  border: solid pink 7px;
+  grid-template-columns: [left] 1fr [float-left] 400px [float-right] 1fr [pdex-left] 450px [pdex-right] 1fr[stats-left] 400px [stats-right] 1fr[right];
+  grid-template-rows: [top] 0.2fr [float-top] 100px [pokedex-top] 300px [stats-top] 100px [float-bottom] 200px [pokedex-bottom] 100px [stats-bottom] 1fr [bottom];
+  grid-template-areas:
+    "header    header    header     header        header  header   header"
+    "one       two       three      pad-top       five    six      seven"
+    "one       two       three      pokedex       five    six      seven"
+    "one       two       three      pokedex       five    six      seven"
+    "one       two       three      pokedex       five    six      seven"
+    "one       two       three      pad-bottom    five    six      seven"
+    "one       two       three      pad-bottom    five    six      seven"
+    "footer    footer    footer     footer        footer  footer   footer";
+  /* do rows and columns have min and max widths? */
 }
 
 #backgroundSlideShow {
   position: relative;
   border-radius: 20px;
-  grid-row: 1/-1;
-  grid-column: 1/7;
-  /* border: lime dotted 5px; */
-  /* background-image: url("../images/pokemon-preview/img-0001.png"); */
-  /* background-color: olive; */
-  /* background-size: cover; /*  100%; cover; */
-  /* background-repeat: no-repeat;
-  background-position: center center;  */
-  /* background-color: black; */
-  /* animation-name: slideShow; */
-  z-index: 1;
+  grid-column-start: left;
+  grid-column-end: right;
+  grid-row-start: top;
+  grid-row-end: bottom;
+  z-index: 0;
 }
 
 /* FLOATING DISPLAY */
 #floatingDisplay {
   position: relative;
-  grid-column: 2/4;
-  grid-row: 2/6;
-  /* background-color: rgba(128, 0, 128, 0.4); */
+  min-width: 400px;
+  max-width: 600px;
+  grid-column-start: float-left;
+  grid-column-end: float-right;
+  grid-row-start: float-top;
+  grid-row-end: float-bottom;
+  background-color: rgba(128, 0, 128, 0.4);
+  z-index: 1;
 }
 
 #pokedexWrap {
   opacity: 0;
   background-color: rgb(83, 84, 84);
+  /* gradient box-shaddow from some site online, then tweaked colors a little */
   box-shadow: 0 0 50px rgba(255, 255, 255, 0.73),
     /* inner white */ 20px 0 80px rgba(255, 0, 255, 0.593),
     /* inner left magenta short */ -20px 0 80px rgba(0, 255, 255, 0.661),
-    /* inner right cyan short */ 20px 0 300px rgba(255, 0, 255, 0.579),
+    /* inner right cyan short */ 20px 0 300px rgba(0, 234, 255, 0.579),
     /* inner left magenta broad */ -20px 0 300px rgba(0, 255, 255, 0.703),
     /* inner right cyan broad */ 0 0 50px #fff,
-    /* outer white */ -10px 0 80px rgba(255, 0, 255, 0.579),
+    /* outer white */ -10px 0 80px rgba(0, 200, 255, 0.579),
     /* outer left magenta */ 10px 0 80px rgba(0, 255, 255, 0.62);
   /* offsetX offsetY blurr spread color */
 
@@ -86,6 +82,7 @@ body {
   animation-duration: 2000ms;
   animation-direction: forwards;
   animation-fill-mode: forwards;
+  z-index: 3;
   /* animation-delay: 500ms; */
 
   grid-area: pokedex;
@@ -224,10 +221,14 @@ body {
   left: 100px;
   top: 400px; */
   z-index: 3;
+  grid-column-start: stats-left;
+  grid-column-end: stats-right;
+  grid-row-start: stats-top;
+  grid-row-end: stats-bottom;
 
-  grid-row: stat-top/ stat-bottom;
-  grid-column: stat-left / stat-right;
-  /* background-color: purple; */
+  /* grid-row: stat-top/ stat-bottom;
+  grid-column: stat-left / stat-right; */
+  background-color: purple;
   /* width: 300px;
   height: 300px; */
 }

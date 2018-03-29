@@ -232,7 +232,7 @@ $(() => {
     // console.log(target);
   });
 
-  // displayPokemon();
+   displayPokemon();
 
   // ANIMATION TO DISPLAY POKEMON
   function displayPokemon(pokemonObject, pokemonName) {

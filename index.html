@@ -13,10 +13,10 @@
 
 <body>
 
-    <audio controls>
+    <!-- <audio controls>
         <source src="horse.ogg" type="audio/ogg">
         <source src="horse.mp3" type="audio/mpeg"> Your browser does not support the audio tag.
-    </audio>
+    </audio> -->
     <!-- <div class="sprite"></div> -->
 
     <div id="frame">
@@ -29,13 +29,44 @@
         <div id="floatingDisplay">
 
         </div>
+        <div id="backgroundSlideShow">
+            <img id="one" class="hiddenState" src="" alt="">
+            <img id="two" class="hiddenState" src="" alt="">
+        </div>
+        <div id="floatingDisplay">
+            <div id="gradientDot"></div>
+        </div>
+        <div id="floatingStats">
+        </div>
+        <div id="pokedexWrap" class="slideInUp">
+            <div id="searchWrapInactive">
+                <input id="search" type="text" placeholder="search">
+                <button id="goButton">go</button>
+            </div>
+            <div id="pokemonDisplay">
+                <button>
+                    <<</button>
+                        <button>>></button>
+            </div>
+            <div>
+
+            </div>
+            <div id="pokemonStats">
+                <div data="power" id="hp">hp</div>
+                <div data="name" id="speed">speed</div>
+                <div data="name" id="attack">attack</div>
+                <div data="name" id="defense">defense</div>
+                <div data="name" id="special-attack">special attack</div>
+                <div data="name" id="special-defense">special defense</div>
+            </div>
+        </div>
         <div id="floatingStats">
             <div id="statsWrap">
 
             </div>
         </div>
-        <div id="pokedexWrap" class="slideInUp">
-            <!-- refactor this as a form -->
+        <!-- <div id="pokedexWrap" class="slideInUp">
+
             <div id="searchWrapInactive">
                 <input id="search" type="text" placeholder="search">
                 <button id="goButton">go</button>
@@ -56,7 +87,7 @@
                 <div data="name" id="special-defense">special defense</div>
             </div>
         </div>
-    </div>
+    </div> -->
 </body>
 
 </html>
