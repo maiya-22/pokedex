@@ -1,77 +1,48 @@
 /* eslint func-names: 0,  no-unused-vars: 0, no-alert: 0, class-methods-use-this: 0 , no-plusplus: 0 , indend: 0 , no-restricted-syntax: 0 , no-use-before-define: 0 , no-loop-func: 0, func-names: 0, space-before-blocks: 0, indent: 0 */
 $(() => {
-  // invoke set-up functions:
+  // set up DOM:
   backgroundAnimation();
-  // global variables:
-  const search = document.getElementById('search');
-  const pokemonDisplay = document.getElementById('pokemonDisplay');
-  const floatingStats = document.getElementById('floatingStats');
-  search.setAttribute('placeholder', 'waiting to load pokemon');
-  // Object Classes:
-  class Pokedex {
-    constructor() {
-      this.statOptions = {
-        attack: false,
-        defense: false,
-        'special-attack': false,
-        'special-defense': false,
-        hp: false,
-      };
-    }
-    toggleStatusOption(option) {
-      this.statusOptions[option] = !this.statusOptions[option];
-    }
-  }
-  const pokedex = new Pokedex();
-  // Trainer class:
-  class Trainer {
-    constructor(name) {
-      this.name = name;
-      this.trainerGym = {};
-    }
-    get allPokemon() {
-      const allPokemon = [];
-      for (const pokemon in this.gym) {
-        if (this.gym.hasOwnProperty(pokemon)) {
-          allPokemon[allPokemon.length] = this.gym[pokemon];
-        }
-      }
-      return allPokemon;
-    }
-    getPokemon(pokemonName) {
-      return this.trainerGym[pokemonName];
-    }
-    get gym() {
-      return this.trainerGym;
-    }
-    addPokemon() {
-      // function to fetch a new pokemon and add it to the gym:
-    }
-  }
-  const trainer = new Trainer('Chuck');
+  const globalV = 'true';
+  console.log('globalV: ', globalV);
   // Pokemon class:
   class Pokemon {
-    constructor(pokemonData) {
-      this.allData = pokemonData;
-      const { name, sprites, stats } = pokemonData;
+    constructor(name, stats, abilities, pic, sprites, gif = 'no giff') {
       this.name = name;
+      this.stats = stats;
+      this.abilities = abilities;
+      this.gif = gif;
+      this.pic = pic;
       this.sprites = sprites;
-      this.pic = this.sprites.front_default;
-      this.stats = stats; // an array of objects
+    }
+    makePokemonInstance(pokemonObject, gif) {
+      // console.log(pokemonObject);
+      const { name, stats, abilities } = pokemonObject;
+      const reformattedStats = {};
       stats.forEach((stat) => {
-        this[stat.stat.name] = stat.base_stat; // assign the name of the stat to be its base value
+        reformattedStats[stat.stat.name] = stat.base_stat;
       });
-      this.simpleStats = { //default stats that ever 
-        attack: this.attack || 'no attack',
-        defense: this.defense || 'no defense',
-        'special-attack': this['special-attack'] || 'no special attack',
-        'special-defense': this['special-defense'] || 'no special defense',
-        speed: this.speed || 'no speed',
-        hp: this.hp || 'no hp',
-      };
+      const reformattedAbilities = [];
+      abilities.forEach((ability) => {
+        reformattedAbilities.push(ability.ability.name);
+      });
+      const pic = pokemonObject.sprites.front_default;
+      const sprites = {};
+      sprites.front = pic;
+      sprites.back = pokemonObject.sprites.back_default;
+      return new Pokemon(name, reformattedStats, reformattedAbilities, pic, sprites, gif);
+    }
+    get abilities() {
+      return this.abilities;
+    }
+  }
+
+  class Trainer {
+    constructor(trainerName) {
+      this.trainerName = trainerName;
+      this.gym = {};
     }
     // Fetch the data from the api and return a promise:
-    pokemonObjectPromise(pokemonName) {
+    getPokemonPromise(pokemonName) {
       const endpoint = pokemonName;
       return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
@@ -85,215 +56,42 @@ $(() => {
         };
       });
     }
-    // Use the pokemonObjectPromise to make an pokemon instance:
-    makePokemonInstancePromise(pokemonName) {
-      return Pokemon.prototype.pokemonObjectPromise(pokemonName).then(pokemonObject =>
-          new Promise((resolve, reject) => {
-            // console.log('in the promise ... ');
-            const newPokemon = new Pokemon(pokemonObject);
-            resolve(newPokemon);
-          }));
-    }
-    loopThroughSprites() {
-      const { sprites } = this;
-      // console.log(`${this.name}'s sprites: ${sprites}`);
-      for (const sprite in sprites) {
-        if (sprites.hasOwnProperty(sprite)) {
-          // console.log(sprites[sprite]);
-        }
-      }
-    }
   }
-  Pokemon.prototype.baseUrl = 'https://pokeapi.co/api/v2/pokemon';
-  Pokemon.prototype.pokemonGym = {};
+  Trainer.prototype.baseUrl = 'https://pokeapi.co/api/v2/pokemon';
+  Trainer.prototype.get = Trainer.prototype.getPokemonPromise;
 
-  const makePokemon = Pokemon.prototype.makePokemonInstancePromise;
-  // INVOKING THE POKEMON PROMISE TO RETURN POKEMON OBJECTS:
-  Promise.all([makePokemon('dragonair'), makePokemon('butterfree'), makePokemon('charmeleon')])
-    .then((pokemon) => {
-      // pokemon objects have arrived:
-      // loop through the array of pokemon objects and create Pokemon instances
-      // and add them to the pokemon gym:
-      pokemon.forEach((pokie, index) => {
-        // Pokemon gym property to hold all pokemon
-        Pokemon.prototype.pokemonGym[pokie.name] = pokie;
-        Pokemon.prototype.pokemonGym[pokie.name].gymDisplayOrder = index;
-        // add pokemon to the trainer:
-        trainer.gym[pokie.name] = pokie;
+  const trainer = new Trainer('Chuck');
+  // console.log(trainer);
+
+  // click button to pre-load my three pokemon and add to trainer gym:
+  const preLoadPokemonButton = document.getElementById('preLoadPokemon');
+  preLoadPokemonButton.addEventListener('click', () => {
+    console.log('clicked');
+    Trainer.prototype
+      .getPokemonPromise('dragonair')
+      .then((pokemon) => {
+        console.log('pokemon', pokemon);
+
+        // trainer.gym = Pokemon.prototype.makePokemonInstance(pokemon);
+
+        return Trainer.prototype.getPokemonPromise('butterfree');
+      })
+      .then((pokemon) => {
+        console.log(pokemon);
+        // const pokemonName = pokemon.name;
+        // console.log('pokemonName:', pokemonName);
+        // trainer.gym[pokemonName] = Pokemon.prototype.makePokemonInstance(pokemon);
+        return Trainer.prototype.getPokemonPromise('charmeleon');
+      })
+      .then((pokemon) => {
+        console.log(pokemon);
+        // trainer.gym.sup = Pokemon.prototype.makePokemonInstance(pokemon);
+        // console.log(trainer.gym);
+      })
+      .catch((err) => {
+        // console.log(`${err} caught in initial loading pokemon promise`);
       });
-      // create variables that point to the pokemon in the gym:
-      const { dragonair, butterfree, charmeleon } = trainer.gym;
-      // add gifs to pokemon instances:
-      dragonair.gif = 'http://www.pokestadium.com/sprites/xy/dragonair-2.gif';
-      butterfree.gif =
-        'http://rs744.pbsrc.com/albums/xx87/jessstaardust/tumblr_n1234ahMHc1s2qnyjo1_250_zpsa8f9c122.gif~c200';
-      charmeleon.gif =
-        'https://orig00.deviantart.net/5293/f/2016/030/b/7/charmeleon_gif_by_queenaries-d9px7h5.gif';
-      console.log(dragonair);
-      // add a pokemon to the floating display:
-
-      // want to put all of this code in the global scope:
-      goButton.addEventListener('click', (evt) => {
-        const pokemonName = document.getElementById('search').value.toLowerCase();
-        const allNames = Object.keys(trainer.gym);
-        if (allNames.includes(pokemonName)) {
-          const pokemonObject = trainer.getPokemon(pokemonName);
-          console.log('pokemon from trainer:', pokemonObject);
-        }
-        removePokemonFromScreen();
-        console.log('looking for pokie');
-        // addPokemonToScreen(pokemonName); //first function - rough draft
-        const pokemonObject = trainer.gym[pokemonName];
-        displayPokemon(pokemonObject, pokemonName); // function to add all pokies
-        // access the pokemon object
-        // display the pokemon object on the screen:
-      });
-
-      function removePokemonFromScreen() {
-        const pokedexPokemonDisplay = document.getElementById('pokedexPokemonDisplay');
-        if (pokedexPokemonDisplay) {
-          pokedexPokemonDisplay.classList.add('pokedexPokemonDisplayExit');
-          setTimeout(() => {
-            pokedexPokemonDisplay.remove();
-          }, 1500);
-        }
-
-        console.log('pokedex: ', pokedexPokemonDisplay);
-      }
-
-      function addPokemonToScreen(pokemonName) {
-        // add picture to display:
-        const pokemonObject = trainer.getPokemon(pokemonName);
-        const pixImg = document.createElement('img');
-        pixImg.setAttribute('id', 'pokedexPokemonDisplay');
-        pixImg.src = pokemonObject.pic;
-        pokemonDisplay.appendChild(pixImg);
-
-        // add gif to floating display:
-        const floatingDisplay = document.getElementById('floatingDisplay');
-        const img = document.createElement('img');
-        img.setAttribute('src', pokemonObject.gif);
-        img.classList.add('pokemonAppear');
-        floatingDisplay.appendChild(img);
-
-        // add stats:
-        const stats = pokemonObject.stats;
-        for (const stat in stats) {
-          if (stats.hasOwnProperty) {
-            const statDiv = document.createElement('div');
-            statDiv.innerHTML = `${stats[stat].stat.name} : ${stats[stat].base_stat}`;
-            const statButton = document.getElementById(stats[stat].stat.name);
-            if (statButton) {
-              statButton.innerHTML = `${stats[stat].stat.name} : ${stats[stat].base_stat}`;
-            }
-            // statButton.appendChild(statDiv);
-            floatingStats.appendChild(statDiv);
-            // console.log('STAT', stats[stat].stat.name);
-            // console.log('STAT', stats[stat].base_stat);
-          }
-        }
-      }
-      // addPokemonToScreen(butterfree);
-
-      // make search bar active:
-      const searchWrap = document.getElementById('searchWrapInactive');
-      if (searchWrap) {
-        searchWrap.id = 'searchWrapActive';
-        search.setAttribute('placeholder', 'the pokemon are in the gym');
-      }
-    })
-    .catch((err) => {
-      console.log(`error caught: ${err}`);
-    });
-
-  // GLOBAL OBJECTS:
-  const pokemonPositions = ['dragonair', 'butterfree', 'decidueye'];
-  const selectedIndex = 0;
-
-  // DOM ELEMENTS:
-  const forwardArrowButton = document.getElementById('forward');
-  const backwardArrowButton = document.getElementById('backward');
-  const goButton = document.getElementById('goButton');
-  // DOM EVENT-LISTENERS:
-  forwardArrowButton.addEventListener('click', () => {
-    // change view to pokemon to the right:
-    // trigger click-sound
   });
-  forwardArrowButton.addEventListener('click', () => {
-    // change view to pokemon to the left:
-    // trigger click-sound
-  });
-  // gets a pokemon and displays it:
-
-  const pokedexWrap = document.getElementById('pokedexWrap');
-  pokedexWrap.addEventListener('click', (e) => {
-    const target = e.target;
-    const data = target.getAttribute('data');
-    target.classList.add('pressed');
-    // console.log(target);
-  });
-
-  //  displayPokemon();
-
-  // ANIMATION TO DISPLAY POKEMON
-  function displayPokemon(pokemonObject, pokemonName) {
-    // display pic in pokedex:
-    // display stats in pokedex
-    // display giff animation
-    // display stats animation
-
-    const { simpleStats } = pokemonObject;
-    renderStats(simpleStats, pokemonName);
-    function renderStats(stats, pokemonName) {
-      const container = document.getElementById('floatingStats');
-      // const title = document.createElement('h1');
-      // const formattedName = pokemonName[0].toUpperCase() + pokemonName.slice(1).toLowerCase();
-      // const possessive = formattedName[formattedName.length - 1] === 's' ? '' : 's';
-      // title.innerHTML = `${formattedName}'${possessive} stats:`;
-      // container.prepend(title);
-      const statsWrap = container.querySelector('#statsWrap');
-      const statNames = Object.keys(stats);
-      // loop over statNames and create html for each stat:
-      statNames.forEach((stat) => {
-        console.log(stat);
-        // make a statWrap for each stat and add everything to it:
-        const statWrap = document.createElement('div');
-        statWrap.classList.add('statWrap');
-        statWrap.setAttribute('id', `${stat}Wrap`);
-
-        const statLabel = document.createElement('div');
-        statLabel.innerHTML = stat;
-        statWrap.appendChild(statLabel);
-
-        const statBarWrap = document.createElement('div');
-        statBarWrap.classList.add('statBarWrap');
-        // add boxes inside of the statBarWrap:
-        console.log('statBarWrap: ', statBarWrap);
-        for (let i = 0; i < simpleStats[stat]; i++) {
-          // if (i < simpleStats[stat]) {
-          setTimeout(() => {
-            const statBox = document.createElement('div');
-            statBox.classList.add('statBox');
-            statBarWrap.appendChild(statBox);
-
-            if (i === simpleStats[stat] - 1) {
-              setTimeout(() => {
-                const statNumberBox = document.createElement('div');
-                statNumberBox.classList.add('statNumberBox');
-                statNumberBox.innerHTML = stats[stat];
-                statBarWrap.appendChild(statNumberBox);
-              }, 20);
-            }
-          }, i * 20);
-          // }
-          statWrap.appendChild(statBarWrap);
-        }
-
-        // and end of loop:
-        statsWrap.appendChild(statWrap);
-      });
-    }
-  }
 
   // BACKGROUND ANIMATION:
   function backgroundAnimation() {
@@ -309,25 +107,25 @@ $(() => {
     const starterImage = 'black-image';
     const starterImageTwo = 'img-0001';
     let imageIndex = 0;
+    // elements that will alternate fading in and out
     let imageOne = document.getElementById('one');
     let imageTwo = document.getElementById('two');
     setSource(imageOne, starterImage);
     makeDisplayedState(imageOne);
     setSource(imageTwo, starterImageTwo);
-    let round = 0;
+    let round = 0; // current cycle number running
     const rounds = 'infinite'; // imageFiles.length; //the total # of rounds or cycles to run
     let count = 0;
-    let time = 0;
-    const transitionTime = 2000;
-    const displayTime = 500;
+    let time = 0; // for the setTimeOut functions
+    const transitionTime = 2000; // time for images fading in and out
+    const displayTime = 500; // time for image to have full display
     // run first cycle, because interval is spaced for time of slideshow
     showCycle();
+    //  then do invoke the cycle on setInterval
     const setIntervalFunction = setInterval(() => {
       showCycle();
     }, transitionTime + displayTime);
     function showCycle() {
-      // console.log(`round ${round}.  ImageOne: `, imageOne);
-      // console.log(`round ${round}.  ImageTwo: `, imageTwo);
       count++;
       // timeOne:
       time += transitionTime;
