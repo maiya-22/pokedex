@@ -1,49 +1,40 @@
-/* eslint func-names: 0,  no-unused-vars: 0, no-alert: 0, class-methods-use-this: 0 , no-plusplus: 0 , indend: 0 , no-restricted-syntax: 0 , no-use-before-define: 0 , no-loop-func: 0, func-names: 0, space-before-blocks: 0, indent: 0 */
+/* eslint func-names: 0,  no-unused-vars: 0, no-alert: 0, class-methods-use-this: 0 , no-plusplus: 0 , indend: 0 , no-restricted-syntax: 0 , no-use-before-define: 0 , no-loop-func: 0, func-names: 0, space-before-blocks: 0, indent: 0, max-len: 0 */
 $(() => {
   // set up DOM:
   backgroundAnimation();
-  const globalV = 'true';
+  const searchButton = document.getElementById('search');
+  const pokemonDisplay = document.getElementById('pokemonDisplay');
 
   // console.log('globalV: ', globalV);
   // Pokemon class:
   class Pokemon {
-    constructor(pokemonName, stats, abilities, pic, sprites, gif = 'no giff') {
+    constructor(pokemonName, stats, abilities, pic, sprites, gif = null) {
       this.pokemonName = pokemonName;
       this.stats = stats;
       this.abilities = abilities;
-      this.gif = 'wait';
+      this.gif = gif;
       this.pic = pic;
       this.sprites = sprites;
     }
-    // makePokemonInstance(pokemonObject) {
-    //   // console.log(pokemonObject);
-    //   const { name, stats, abilities } = pokemonObject;
-    //   const reformattedStats = {};
-    //   stats.forEach((stat) => {
-    //     reformattedStats[stat.stat.name] = stat.base_stat;
-    //   });
-    //   const reformattedAbilities = [];
-    //   abilities.forEach((ability) => {
-    //     reformattedAbilities.push(ability.ability.name);
-    //   });
-    //   const pic = pokemonObject.sprites.front_default;
-    //   const sprites = {};
-    //   sprites.front = pic;
-    //   sprites.back = pokemonObject.sprites.back_default;
-    //   return new Pokemon(name, reformattedStats, reformattedAbilities, pic, sprites);
-    // }
     getAbilities() {
       return this.abilities;
     }
   }
-
-  function makePokemonInstance(pokemonObject) {
+  Pokemon.prototype.gifs = {
+    dragonair: 'http://www.pokestadium.com/sprites/xy/dragonair-2.gif',
+    butterfree:
+      'http://rs744.pbsrc.com/albums/xx87/jessstaardust/tumblr_n1234ahMHc1s2qnyjo1_250_zpsa8f9c122.gif~c200',
+    charmeleon:
+      'https://orig00.deviantart.net/5293/f/2016/030/b/7/charmeleon_gif_by_queenaries-d9px7h5.gif',
+  };
+  //  to do: put makePokemonInstance function on Pokemon.prototype
+  function makePokemonInstance(pokemonObject, gif) {
     const abilities = pokemonObject.abilities;
     const pokemonName = pokemonObject.name;
     const stats = pokemonObject.stats;
-    console.log('stats in func:', stats);
-    console.log('abilities in func: ', abilities);
-    console.log('pokemon object inside makeInstance function', pokemonObject);
+    console.log('stats in makeInstance func:', stats);
+    console.log('abilities in makeInstance func: ', abilities);
+    console.log('pokemon object in makeInstance func', pokemonObject);
     const reformattedStats = {};
     stats.forEach((stat) => {
       reformattedStats[stat.stat.name] = stat.base_stat;
@@ -57,7 +48,7 @@ $(() => {
     const sprites = {};
     sprites.front = pic;
     sprites.back = pokemonObject.sprites.back_default;
-    return new Pokemon(pokemonName, reformattedStats, reformattedAbilities, pic, sprites);
+    return new Pokemon(pokemonName, reformattedStats, reformattedAbilities, pic, sprites, gif);
   }
 
   class Trainer {
@@ -89,6 +80,7 @@ $(() => {
   console.log(trainer);
 
   // click button to pre-load my three pokemon and add to trainer gym:
+  //  once the pokemon are loaded, the search-bar will become active:
   const preLoadPokemonButton = document.getElementById('preLoadPokemon');
   preLoadPokemonButton.addEventListener('click', () => {
     console.log('clicked');
@@ -96,8 +88,8 @@ $(() => {
       .getPokemonPromise('dragonair')
       .then((pokemon) => {
         console.log('pokemon', pokemon);
-
-        trainer.gym[pokemon.name] = makePokemonInstance(pokemon);
+        const gif = Pokemon.prototype.gifs[pokemon.name] || null;
+        trainer.gym[pokemon.name] = makePokemonInstance(pokemon, gif);
         // console.log(trainer);
         return Trainer.prototype.getPokemonPromise('butterfree');
       })
@@ -105,19 +97,76 @@ $(() => {
         console.log('data', pokemon);
         const pokemonName = 'butterfree';
         // console.log('pokemonName:', pokemonName);
-        trainer.gym[pokemonName] = makePokemonInstance(pokemon);
+        const gif = Pokemon.prototype.gifs[pokemon.name] || null;
+        trainer.gym[pokemonName] = makePokemonInstance(pokemon, gif);
         return Trainer.prototype.getPokemonPromise('charmeleon');
       })
       .then((pokemon) => {
         console.log('data2', pokemon);
         const pokemonName = pokemon.name;
-        trainer.gym[pokemonName] = makePokemonInstance(pokemon);
+        const gif = Pokemon.prototype.gifs[pokemon.name] || null;
+        trainer.gym[pokemonName] = makePokemonInstance(pokemon, gif);
         console.log('trainer.gym', trainer.gym);
+        // make search bar active, now that pokemon have arrived:
+        // make search bar active:
+        const searchWrap = document.getElementById('searchWrapInactive');
+        if (searchWrap) {
+          searchWrap.id = 'searchWrapActive';
+          searchButton.setAttribute('placeholder', 'the pokemon are in the gym');
+        }
       })
       .catch((err) => {
         console.log(`${err} caught in initial loading pokemon promise`);
       });
   });
+  // enter pokemon name in search bar and click the "go" button to display a pokemon that is in the gym:
+  // #working on now:
+  const goButton = document.getElementById('goButton');
+  goButton.addEventListener('click', () => {
+    const pokemonName = document.getElementById('search').value.toLowerCase();
+    console.log('pokemonName in goButton event: ', pokemonName);
+    const allNames = Object.keys(trainer.gym);
+    if (allNames.includes(pokemonName)) {
+      Pokemon.prototype.renderPokemon(pokemonName);
+    } else {
+      // render a prompt to the DOM:
+      alert(`please enter one of these names: ${allNames.join(' ')}`);
+    }
+  });
+  // to do: put this function closer to Pokemon class:
+  Pokemon.prototype.removePokemonFromDisplay = function () {
+    // remove from pokedex display:
+    // to do: fix timing on this:
+    const pokedexPokemonDisplay = document.getElementById('pokedexPokemonDisplay');
+    if (pokedexPokemonDisplay) {
+      pokedexPokemonDisplay.classList.add('pokedexPokemonDisplayExit');
+      setTimeout(() => {
+        pokedexPokemonDisplay.remove();
+      }, 1500);
+    }
+  };
+  // to do: put this closer to the Pokemon class:
+  // to do: re-factor, so that it renders from an instance,
+  // instead of passing object as param:
+  // function to render the selected pokemon to the screen:
+  Pokemon.prototype.renderPokemon = function (pokemonName) {
+    const pokemonObject = trainer.gym[pokemonName];
+    console.log('pokemon Object in renderPokemon', pokemonObject);
+    // remove current pokemon from screen:
+    Pokemon.prototype.removePokemonFromDisplay();
+    // render pic to pokedex display:
+    const pixImg = document.createElement('img');
+    pixImg.setAttribute('id', 'pokedexPokemonDisplay');
+    pixImg.src = pokemonObject.pic;
+    pokemonDisplay.appendChild(pixImg);
+
+    // see which stats are active:
+
+    // render stats to floating stats display:
+
+    // render gif to floating display
+  };
+
   // BELOW HERE IS WORKING:
   // BACKGROUND ANIMATION:
   function backgroundAnimation() {

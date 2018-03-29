@@ -23,20 +23,20 @@ START POKEMON CLASS
       };
     }
     // Fetch the data from the api and return a promise:
-    pokemonObjectPromise(pokemonName) {
-      const endpoint = pokemonName;
-      return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', `${this.baseUrl}/${pokemonName}/`);
-        xhr.send();
-        xhr.onload = function () {
-          resolve(JSON.parse(xhr.responseText));
-        };
-        xhr.onerror = function () {
-          reject(xhr.statusText);
-        };
-      });
-    }
+    // pokemonObjectPromise(pokemonName) {
+    //   const endpoint = pokemonName;
+    //   return new Promise((resolve, reject) => {
+    //     const xhr = new XMLHttpRequest();
+    //     xhr.open('GET', `${this.baseUrl}/${pokemonName}/`);
+    //     xhr.send();
+    //     xhr.onload = function () {
+    //       resolve(JSON.parse(xhr.responseText));
+    //     };
+    //     xhr.onerror = function () {
+    //       reject(xhr.statusText);
+    //     };
+    //   });
+    // }
     // // Use the pokemonObjectPromise to make an pokemon instance:
     // makePokemonInstancePromise(pokemonName) {
     //   return Pokemon.prototype.pokemonObjectPromise(pokemonName).then(pokemonObject =>
@@ -46,15 +46,15 @@ START POKEMON CLASS
     //         resolve(newPokemon);
     //       }));
     // }
-    loopThroughSprites() {
-      const { sprites } = this;
-      // console.log(`${this.name}'s sprites: ${sprites}`);
-      for (const sprite in sprites) {
-        if (sprites.hasOwnProperty(sprite)) {
-          // console.log(sprites[sprite]);
-        }
-      }
-    }
+    // loopThroughSprites() {
+    //   const { sprites } = this;
+    //   // console.log(`${this.name}'s sprites: ${sprites}`);
+    //   for (const sprite in sprites) {
+    //     if (sprites.hasOwnProperty(sprite)) {
+    //       // console.log(sprites[sprite]);
+    //     }
+    //   }
+    // }
   }
   Pokemon.prototype.baseUrl = 'https://pokeapi.co/api/v2/pokemon';
   Pokemon.prototype.pokemonGym = {};
