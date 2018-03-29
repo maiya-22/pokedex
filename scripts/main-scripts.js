@@ -3,37 +3,61 @@ $(() => {
   // set up DOM:
   backgroundAnimation();
   const globalV = 'true';
-  console.log('globalV: ', globalV);
+
+  // console.log('globalV: ', globalV);
   // Pokemon class:
   class Pokemon {
-    constructor(name, stats, abilities, pic, sprites, gif = 'no giff') {
-      this.name = name;
+    constructor(pokemonName, stats, abilities, pic, sprites, gif = 'no giff') {
+      this.pokemonName = pokemonName;
       this.stats = stats;
       this.abilities = abilities;
-      this.gif = gif;
+      this.gif = 'wait';
       this.pic = pic;
       this.sprites = sprites;
     }
-    makePokemonInstance(pokemonObject, gif) {
-      // console.log(pokemonObject);
-      const { name, stats, abilities } = pokemonObject;
-      const reformattedStats = {};
-      stats.forEach((stat) => {
-        reformattedStats[stat.stat.name] = stat.base_stat;
-      });
-      const reformattedAbilities = [];
-      abilities.forEach((ability) => {
-        reformattedAbilities.push(ability.ability.name);
-      });
-      const pic = pokemonObject.sprites.front_default;
-      const sprites = {};
-      sprites.front = pic;
-      sprites.back = pokemonObject.sprites.back_default;
-      return new Pokemon(name, reformattedStats, reformattedAbilities, pic, sprites, gif);
-    }
-    get abilities() {
+    // makePokemonInstance(pokemonObject) {
+    //   // console.log(pokemonObject);
+    //   const { name, stats, abilities } = pokemonObject;
+    //   const reformattedStats = {};
+    //   stats.forEach((stat) => {
+    //     reformattedStats[stat.stat.name] = stat.base_stat;
+    //   });
+    //   const reformattedAbilities = [];
+    //   abilities.forEach((ability) => {
+    //     reformattedAbilities.push(ability.ability.name);
+    //   });
+    //   const pic = pokemonObject.sprites.front_default;
+    //   const sprites = {};
+    //   sprites.front = pic;
+    //   sprites.back = pokemonObject.sprites.back_default;
+    //   return new Pokemon(name, reformattedStats, reformattedAbilities, pic, sprites);
+    // }
+    getAbilities() {
       return this.abilities;
     }
+  }
+
+  function makePokemonInstance(pokemonObject) {
+    const abilities = pokemonObject.abilities;
+    const pokemonName = pokemonObject.name;
+    const stats = pokemonObject.stats;
+    console.log('stats in func:', stats);
+    console.log('abilities in func: ', abilities);
+    console.log('pokemon object inside makeInstance function', pokemonObject);
+    const reformattedStats = {};
+    stats.forEach((stat) => {
+      reformattedStats[stat.stat.name] = stat.base_stat;
+    });
+    const reformattedAbilities = [];
+    abilities.forEach((ability) => {
+      reformattedAbilities.push(ability.ability.name);
+    });
+    console.log(reformattedAbilities);
+    const pic = pokemonObject.sprites.front_default;
+    const sprites = {};
+    sprites.front = pic;
+    sprites.back = pokemonObject.sprites.back_default;
+    return new Pokemon(pokemonName, reformattedStats, reformattedAbilities, pic, sprites);
   }
 
   class Trainer {
@@ -61,7 +85,8 @@ $(() => {
   Trainer.prototype.get = Trainer.prototype.getPokemonPromise;
 
   const trainer = new Trainer('Chuck');
-  // console.log(trainer);
+
+  console.log(trainer);
 
   // click button to pre-load my three pokemon and add to trainer gym:
   const preLoadPokemonButton = document.getElementById('preLoadPokemon');
@@ -72,27 +97,28 @@ $(() => {
       .then((pokemon) => {
         console.log('pokemon', pokemon);
 
-        // trainer.gym = Pokemon.prototype.makePokemonInstance(pokemon);
-
+        trainer.gym[pokemon.name] = makePokemonInstance(pokemon);
+        // console.log(trainer);
         return Trainer.prototype.getPokemonPromise('butterfree');
       })
       .then((pokemon) => {
-        console.log(pokemon);
-        // const pokemonName = pokemon.name;
+        console.log('data', pokemon);
+        const pokemonName = 'butterfree';
         // console.log('pokemonName:', pokemonName);
-        // trainer.gym[pokemonName] = Pokemon.prototype.makePokemonInstance(pokemon);
+        trainer.gym[pokemonName] = makePokemonInstance(pokemon);
         return Trainer.prototype.getPokemonPromise('charmeleon');
       })
       .then((pokemon) => {
-        console.log(pokemon);
-        // trainer.gym.sup = Pokemon.prototype.makePokemonInstance(pokemon);
-        // console.log(trainer.gym);
+        console.log('data2', pokemon);
+        const pokemonName = pokemon.name;
+        trainer.gym[pokemonName] = makePokemonInstance(pokemon);
+        console.log('trainer.gym', trainer.gym);
       })
       .catch((err) => {
-        // console.log(`${err} caught in initial loading pokemon promise`);
+        console.log(`${err} caught in initial loading pokemon promise`);
       });
   });
-
+  // BELOW HERE IS WORKING:
   // BACKGROUND ANIMATION:
   function backgroundAnimation() {
     // make an array of the file-names in the folder:
