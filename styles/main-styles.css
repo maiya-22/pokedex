@@ -11,14 +11,11 @@ body {
   align-content: center;
   height: 100vh;
   width: 100vw;
-  /* background-color: black; */
+  background-color: black;
 }
 
 #frame {
-  /* set min width and height */
   border-radius: 20px;
-  /* why is this not also containing the image inside it? */
-
   height: 90vh;
   width: 95vw;
   min-width: 1200px;
@@ -26,9 +23,9 @@ body {
   margin: auto;
   position: relative;
   display: grid;
-  grid-template-columns: [left] 1fr 1fr 1fr 1fr 1fr 1fr 1fr[stat-left] 1fr 1fr[stat-right] 1fr [right];
+  grid-template-columns: [left] 1fr [display-left] 1fr [display-right] 1fr [pokedex-left] 1fr [pokedex-right] 1fr [stats-left] 1fr [stats-right] 1fr [right];
   grid-template-rows: [top] 1fr 1fr 1fr 1fr[stat-top] 1fr 1fr 1fr 1fr [stat-bottom]1fr 1fr 1fr [bottom];
-  grid-template-areas:
+  /* grid-template-areas:
     "one  two  three    four      five     six          seven    eight  nine  ten"
     "one  two  three    four      five     six          seven    eight  nine  ten"
     "one  two  three    four      pokedex  pokedex      seven    eight  nine  ten"
@@ -39,42 +36,33 @@ body {
     "one  two  three    four      pokedex  pokedex      seven    eight  nine  ten"
     "one  two  three    fourTwo   fiveTwo  sixTwo       seven    eight  nine  ten"
     "one  two  three    fourTwo   fiveTwo  sixTwo       seven    eight  nine  ten"
-    "one  two  three    fourTwo   fiveTwo  sixTwo       seven    eight  nine  ten";
+    "one  two  three    fourTwo   fiveTwo  sixTwo       seven    eight  nine  ten"; */
 
-  /* grid-template-rows: calc(0.1 * vh) 400px 1fr; */
-
-  /* background: linear-gradient(to right, rgba(255, 0, 0, 0), rgba(255, 0, 0, 1)); */
-
-  border: solid black 1px;
-  /* opacity: 0;
-  animation-name: screenFadeIn;
-  animation-duration: 2500ms;
-  animation-fill-mode: forwards; */
+  border: solid pink 7px;
 }
 
 #backgroundSlideShow {
   position: relative;
   border-radius: 20px;
-  grid-row: top/bottom;
-  grid-column: left/right;
+  grid-row: 1/-1;
+  grid-column: 1/7;
+  /* border: lime dotted 5px; */
   /* background-image: url("../images/pokemon-preview/img-0001.png"); */
   /* background-color: olive; */
-  background-size: cover; /*  100%; cover; */
-  background-repeat: no-repeat;
-  background-position: center center;
+  /* background-size: cover; /*  100%; cover; */
+  /* background-repeat: no-repeat;
+  background-position: center center;  */
   /* background-color: black; */
-  animation-name: slideShow;
-  animation-direction: forwards;
-  animation-iteration-count: infinite;
-  z-index: 0;
+  /* animation-name: slideShow; */
+  z-index: 1;
 }
 
-#backgroundSlideShow img {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
+/* FLOATING DISPLAY */
+#floatingDisplay {
+  position: relative;
+  grid-column: 2/4;
+  grid-row: 2/6;
+  /* background-color: rgba(128, 0, 128, 0.4); */
 }
 
 #pokedexWrap {
@@ -211,31 +199,6 @@ body {
   border: dotted magenta 3px;
 }
 
-/* FLOATING DISPLAY */
-#floatingDisplay {
-  position: relative;
-  grid-column: 2/4;
-  grid-row: 2/6;
-  /* background-color: rgba(128, 0, 128, 0.4); */
-}
-
-#floatingDisplay #gradientDot {
-  position: absolute;
-  width: 3rem;
-  height: 50px;
-  top: 180px;
-  left: 170px;
-  box-shadow: 0 0 50px rgba(255, 255, 255, 0.73),
-    /* inner white */ 20px 0 80px rgba(255, 0, 255, 0.593),
-    /* inner left magenta short */ -20px 0 80px rgba(0, 255, 255, 0.661),
-    /* inner right cyan short */ 20px 0 300px rgba(255, 0, 255, 0.579),
-    /* inner left magenta broad */ -20px 0 300px rgba(0, 255, 255, 0.703),
-    /* inner right cyan broad */ 0 0 50px #fff,
-    /* outer white */ -10px 0 80px rgba(255, 0, 255, 0.579),
-    /* outer left magenta */ 10px 0 80px rgba(0, 255, 255, 0.62);
-  /* offsetX offsetY blurr spread color */
-}
-
 .pokemonAppear {
   opacity: 0;
   width: 100%;
@@ -264,7 +227,7 @@ body {
 
   grid-row: stat-top/ stat-bottom;
   grid-column: stat-left / stat-right;
-  background-color: purple;
+  /* background-color: purple; */
   /* width: 300px;
   height: 300px; */
 }
@@ -318,9 +281,4 @@ body {
     /* transform: rotate(0turn) scale(1); */
     opacity: 1;
   }
-}
-
-body * {
-  backgound-color: white;
-  border: solid orange 5px;
 }

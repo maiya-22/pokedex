@@ -2,7 +2,7 @@
 $(() => {
   // GLOBAL VARIABLES:
   // invoke global functions:
-  // backgroundAnimation();
+ backgroundAnimation();
   // global varibles:
   const search = document.getElementById('search');
   const pokemonDisplay = document.getElementById('pokemonDisplay');
@@ -11,6 +11,17 @@ $(() => {
   // DOM event-listeners
 
   // Object Classes:
+  class Pokedex {
+    constructor() {
+      this.statOptions = {
+        attack: false,
+        defense: false,
+        'special-attack': false,
+        'special-defense': false,
+        'hp': false
+      };
+    }
+  }
   // Trainer class:
   class Trainer {
     constructor(name) {
@@ -55,6 +66,7 @@ $(() => {
         'special-attack': this['special-attack'] || 'no special attack',
         'special-defense': this['special-defense'] || 'no special defense',
         speed: this.speed || 'no speed',
+        hp: this.hp || 'no hp'
       };
     }
     // Fetch the data from the api and return a promise:
@@ -111,11 +123,11 @@ $(() => {
       // create variables that point to the pokemon in the gym:
       const { dragonair, butterfree, charmeleon } = trainer.gym;
       // add gifs to pokemon instances:
-      // dragonair.gif = 'http://www.pokestadium.com/sprites/xy/dragonair-2.gif';
-      // butterfree.gif =
-      //   'http://rs744.pbsrc.com/albums/xx87/jessstaardust/tumblr_n1234ahMHc1s2qnyjo1_250_zpsa8f9c122.gif~c200';
-      // charmeleon.gif =
-      //   'https://orig00.deviantart.net/5293/f/2016/030/b/7/charmeleon_gif_by_queenaries-d9px7h5.gif';
+      dragonair.gif = 'http://www.pokestadium.com/sprites/xy/dragonair-2.gif';
+      butterfree.gif =
+        'http://rs744.pbsrc.com/albums/xx87/jessstaardust/tumblr_n1234ahMHc1s2qnyjo1_250_zpsa8f9c122.gif~c200';
+      charmeleon.gif =
+        'https://orig00.deviantart.net/5293/f/2016/030/b/7/charmeleon_gif_by_queenaries-d9px7h5.gif';
       console.log(dragonair);
       // add a pokemon to the floating display:
 
@@ -233,11 +245,11 @@ $(() => {
     renderStats(simpleStats, pokemonName);
     function renderStats(stats, pokemonName) {
       const container = document.getElementById('floatingStats');
-      const title = document.createElement('h1');
-      const formattedName = pokemonName[0].toUpperCase() + pokemonName.slice(1).toLowerCase();
-      const possessive = formattedName[formattedName.length - 1] === 's' ? '' : 's';
-      title.innerHTML = `${formattedName}'${possessive} stats:`;
-      container.prepend(title);
+      // const title = document.createElement('h1');
+      // const formattedName = pokemonName[0].toUpperCase() + pokemonName.slice(1).toLowerCase();
+      // const possessive = formattedName[formattedName.length - 1] === 's' ? '' : 's';
+      // title.innerHTML = `${formattedName}'${possessive} stats:`;
+      // container.prepend(title);
       const statsWrap = container.querySelector('#statsWrap');
       const statNames = Object.keys(stats);
       // loop over statNames and create html for each stat:
@@ -264,12 +276,15 @@ $(() => {
             statBarWrap.appendChild(statBox);
 
             if (i === simpleStats[stat] - 1) {
-              const statNumberBox = document.createElement('div');
-              statNumberBox.classList.add('statNumberBox');
-              statNumberBox.innerHTML = stats[stat];
-              statBarWrap.appendChild(statNumberBox);
+              setTimeout(function(){
+                const statNumberBox = document.createElement('div');
+                statNumberBox.classList.add('statNumberBox');
+                statNumberBox.innerHTML = stats[stat];
+                statBarWrap.appendChild(statNumberBox);
+              },20);
+             
             }
-          }, i * 40);
+          }, i * 20);
           // }
           statWrap.appendChild(statBarWrap);
         }

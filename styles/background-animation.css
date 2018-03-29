@@ -1,27 +1,15 @@
-#backgroundSlideShow div:nth-child(1) {
-  border: orange dotted 3px;
-}
-
-#backgroundSlideShow div:nth-child(2) {
-  border: magenta dotted 3px;
-}
-
-#backgroundSlideShow div {
-  width: 90%;
-  height: 100vh;
+#one,
+#two {
+  width: 100%;
+  height: 100%;
+  z-index: 0;
   position: absolute;
   top: 0px;
   left: 0px;
-  background-size: cover;
+  border-radius: 20px;
+  border: solid black 10px;
 }
 
-#backgroundScreen {
-  /* background-color: white; */
-  opacity: 0.6;
-  z-index: 3;
-}
-#backgroundBackdrop {
-}
 .displayedState {
   opacity: 1;
 }
@@ -58,8 +46,4 @@
   100% {
     opacity: 0;
   }
-}
-
-* {
-  background-color: white;
 }
