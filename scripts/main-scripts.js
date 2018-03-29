@@ -1,15 +1,12 @@
 /* eslint func-names: 0,  no-unused-vars: 0, no-alert: 0, class-methods-use-this: 0 , no-plusplus: 0 , indend: 0 , no-restricted-syntax: 0 , no-use-before-define: 0 , no-loop-func: 0, func-names: 0, space-before-blocks: 0, indent: 0 */
 $(() => {
-  // GLOBAL VARIABLES:
-  // invoke global functions:
- backgroundAnimation();
-  // global varibles:
+  // invoke set-up functions:
+  backgroundAnimation();
+  // global variables:
   const search = document.getElementById('search');
   const pokemonDisplay = document.getElementById('pokemonDisplay');
   const floatingStats = document.getElementById('floatingStats');
   search.setAttribute('placeholder', 'waiting to load pokemon');
-  // DOM event-listeners
-
   // Object Classes:
   class Pokedex {
     constructor() {
@@ -18,10 +15,14 @@ $(() => {
         defense: false,
         'special-attack': false,
         'special-defense': false,
-        'hp': false
+        hp: false,
       };
     }
+    toggleStatusOption(option) {
+      this.statusOptions[option] = !this.statusOptions[option];
+    }
   }
+  const pokedex = new Pokedex();
   // Trainer class:
   class Trainer {
     constructor(name) {
@@ -60,13 +61,13 @@ $(() => {
       stats.forEach((stat) => {
         this[stat.stat.name] = stat.base_stat; // assign the name of the stat to be its base value
       });
-      this.simpleStats = {
+      this.simpleStats = { //default stats that ever 
         attack: this.attack || 'no attack',
         defense: this.defense || 'no defense',
         'special-attack': this['special-attack'] || 'no special attack',
         'special-defense': this['special-defense'] || 'no special defense',
         speed: this.speed || 'no speed',
-        hp: this.hp || 'no hp'
+        hp: this.hp || 'no hp',
       };
     }
     // Fetch the data from the api and return a promise:
@@ -232,7 +233,7 @@ $(() => {
     // console.log(target);
   });
 
-   displayPokemon();
+  //  displayPokemon();
 
   // ANIMATION TO DISPLAY POKEMON
   function displayPokemon(pokemonObject, pokemonName) {
@@ -276,13 +277,12 @@ $(() => {
             statBarWrap.appendChild(statBox);
 
             if (i === simpleStats[stat] - 1) {
-              setTimeout(function(){
+              setTimeout(() => {
                 const statNumberBox = document.createElement('div');
                 statNumberBox.classList.add('statNumberBox');
                 statNumberBox.innerHTML = stats[stat];
                 statBarWrap.appendChild(statNumberBox);
-              },20);
-             
+              }, 20);
             }
           }, i * 20);
           // }
