@@ -181,6 +181,8 @@ $(() => {
     // see which stats are active:
 
     // render stats to floating stats display:
+    // <div id='floatingStats
+    //    <div id='statsWrap
 
     // render gif to floating display
     const floatingDisplay = document.getElementById('floatingDisplay');
@@ -189,6 +191,62 @@ $(() => {
     img.setAttribute('src', pokemonObject.gif);
     img.classList.add('pokemonAppear');
     floatingDisplay.appendChild(img);
+
+    // pasting in code from before re-factor:
+    const { stats } = pokemonObject;
+    renderStats(stats, pokemonName);
+    function renderStats(stats, pokemonName) {
+      const container = document.getElementById('floatingStats');
+      console.log('** container: ', container);
+      // const title = document.createElement('h1');
+      // const formattedName = pokemonName[0].toUpperCase() + pokemonName.slice(1).toLowerCase();
+      // const possessive = formattedName[formattedName.length - 1] === 's' ? '' : 's';
+      // title.innerHTML = `${formattedName}'${possessive} stats:`;
+      // container.prepend(title);
+      const statsWrap = document.querySelector('#statsWrap');
+      console.log('** statsWrap: ', statsWrap);
+      console.log('** stats: ', stats);
+      const statNames = Object.keys(stats);
+      // loop over statNames and create html for each stat:
+      statNames.forEach((stat) => {
+        console.log(stat);
+        // make a statWrap for each stat and add everything to it:
+        const statWrap = document.createElement('div');
+        statWrap.classList.add('statWrap');
+        statWrap.setAttribute('id', `${stat}Wrap`);
+
+        const statLabel = document.createElement('div');
+        statLabel.innerHTML = stat;
+        statWrap.appendChild(statLabel);
+
+        const statBarWrap = document.createElement('div');
+        statBarWrap.classList.add('statBarWrap');
+        // add boxes inside of the statBarWrap:
+        console.log('statBarWrap: ', statBarWrap);
+        for (let i = 0; i < stats[stat]; i++) {
+          // if (i < simpleStats[stat]) {
+          setTimeout(() => {
+            const statBox = document.createElement('div');
+            statBox.classList.add('statBox');
+            statBarWrap.appendChild(statBox);
+
+            if (i === stats[stat] - 1) {
+              setTimeout(() => {
+                const statNumberBox = document.createElement('div');
+                statNumberBox.classList.add('statNumberBox');
+                statNumberBox.innerHTML = stats[stat];
+                statBarWrap.appendChild(statNumberBox);
+              }, 20);
+            }
+          }, i * 20);
+          // }
+          statWrap.appendChild(statBarWrap);
+        }
+
+        // and end of loop:
+        statsWrap.appendChild(statWrap);
+      });
+    }
   };
 
   // BELOW HERE IS WORKING:
