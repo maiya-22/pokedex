@@ -1,11 +1,11 @@
 /* eslint func-names: 0,  no-unused-vars: 0, no-alert: 0, class-methods-use-this: 0 , no-plusplus: 0 , indend: 0 , no-restricted-syntax: 0 , no-use-before-define: 0 , no-loop-func: 0, func-names: 0, space-before-blocks: 0, indent: 0, max-len: 0 */
 $(() => {
-  // set up DOM:
+  // run background animation:
   backgroundAnimation();
+  // DOM global variables:
   const searchButton = document.getElementById('search');
   const pokemonDisplay = document.getElementById('pokemonDisplay');
 
-  // console.log('globalV: ', globalV);
   // Pokemon class:
   class Pokemon {
     constructor(pokemonName, stats, abilities, pic, sprites, gif = null) {
@@ -54,7 +54,7 @@ $(() => {
   class Trainer {
     constructor(trainerName) {
       this.trainerName = trainerName;
-      this.gym = {};
+      this.gym = {}; // place to store instances of Pokemon objects
     }
     // Fetch the data from the api and return a promise:
     getPokemonPromise(pokemonName) {
@@ -143,12 +143,7 @@ $(() => {
     const floatingImage = document.getElementById('floatingGifImage');
     if (floatingImage) {
       const floatingImageParent = floatingImage.parentNode;
-      // alert(floatingImageParent);
       floatingImageParent.removeChild(floatingImage);
-      // console.log('floatingImage: ', floatingImage);
-      // add an exit animation with a duration
-      // setTimeout for that duration, and remove the image from DOM:
-      // floatingImage.remove();
     }
     // remove from stats:
     // <div id="floatingStats" permanent in html
@@ -187,24 +182,14 @@ $(() => {
     img.classList.add('pokemonAppear');
 
     floatingDisplay.appendChild(img);
-
-    // pasting in code from before re-factor:
     const { stats } = pokemonObject;
     renderStats(stats, pokemonName);
     function renderStats(stats, pokemonName) {
       // to do: this element might nnot be necessary:
       const container = document.getElementById('floatingStats');
-      // console.log('** container: ', container);
-      // const title = document.createElement('h1');
-      // const formattedName = pokemonName[0].toUpperCase() + pokemonName.slice(1).toLowerCase();
-      // const possessive = formattedName[formattedName.length - 1] === 's' ? '' : 's';
-      // title.innerHTML = `${formattedName}'${possessive} stats:`;
-      // container.prepend(title);
 
       // GET THE STATS WRAP DIV FROM THE DOM
       const statsWrap = document.querySelector('#statsWrap');
-      // console.log('** statsWrap: ', statsWrap);
-      // console.log('** stats: ', stats);
       const statNames = Object.keys(stats);
 
       // loop over statNames and create html for each stat:
@@ -231,7 +216,6 @@ $(() => {
             const statBox = document.createElement('div');
             statBox.classList.add('statBox');
             statBarWrap.appendChild(statBox);
-
             if (i === stats[stat] - 1) {
               setTimeout(() => {
                 const statNumberBox = document.createElement('div');
@@ -244,7 +228,6 @@ $(() => {
           // }
           statWrap.appendChild(statBarWrap);
         }
-
         // and end of loop:
         statsWrap.appendChild(statWrap);
       });
