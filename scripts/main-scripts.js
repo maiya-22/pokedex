@@ -86,14 +86,12 @@ $(() => {
     Trainer.prototype
       .getPokemonPromise('dragonair')
       .then((pokemon) => {
-        console.log('pokemon', pokemon);
         const gif = Pokemon.prototype.gifs[pokemon.name] || null;
         trainer.gym[pokemon.name] = makePokemonInstance(pokemon, gif);
         // console.log(trainer);
         return Trainer.prototype.getPokemonPromise('butterfree');
       })
       .then((pokemon) => {
-        console.log('data', pokemon);
         const pokemonName = 'butterfree';
         // console.log('pokemonName:', pokemonName);
         const gif = Pokemon.prototype.gifs[pokemon.name] || null;
@@ -101,7 +99,6 @@ $(() => {
         return Trainer.prototype.getPokemonPromise('charmeleon');
       })
       .then((pokemon) => {
-        console.log('data2', pokemon);
         const pokemonName = pokemon.name;
         const gif = Pokemon.prototype.gifs[pokemon.name] || null;
         trainer.gym[pokemonName] = makePokemonInstance(pokemon, gif);
@@ -141,7 +138,7 @@ $(() => {
       pokedexDisplayPic.classList.add('pokedexPokemonDisplayExit');
       setTimeout(() => {
         pokedexDisplayPic.remove();
-      }, 1500);
+      }, 0);
     }
     const floatingImage = document.getElementById('floatingGifImage');
     if (floatingImage) {
@@ -176,13 +173,11 @@ $(() => {
     const pixImg = document.createElement('img');
     pixImg.setAttribute('id', 'pokemonPic');
     pixImg.src = pokemonObject.pic;
-    pokemonDisplay.appendChild(pixImg);
-    console.log('pixImg: ', pixImg);
-    // see which stats are active:
-
-    // render stats to floating stats display:
-    // <div id='floatingStats
-    //    <div id='statsWrap
+    setTimeout(() => {
+      pokemonDisplay.appendChild(pixImg);
+      pixImg.classList.add('pokemonAppear');
+      console.log('pixImg: ', pixImg);
+    }, 5);
 
     // render gif to floating display
     const floatingDisplay = document.getElementById('floatingDisplay');
@@ -190,6 +185,7 @@ $(() => {
     img.setAttribute('id', 'floatingGifImage');
     img.setAttribute('src', pokemonObject.gif);
     img.classList.add('pokemonAppear');
+
     floatingDisplay.appendChild(img);
 
     // pasting in code from before re-factor:

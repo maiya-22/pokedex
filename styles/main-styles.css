@@ -16,14 +16,15 @@ body {
 
 #frame {
   border-radius: 20px;
-  height: 90vh;
+  /* border: 10px magenta solid; */
+  height: 95vh;
   width: 95vw;
   min-width: 1200px;
   min-height: 700px;
   margin: auto;
   position: relative;
   display: grid;
-  grid-template-columns: [left] 1fr [float-left] 300px [float-right] 1fr [pdex-left] 400px [pdex-right] 1fr[stats-left] 400px [stats-right] 1fr[right];
+  grid-template-columns: [left] 1fr [float-left] 400px [float-right] 1fr [pdex-left] 450px [pdex-right] 1fr[stats-left] 400px [stats-right] 1fr[right];
   grid-template-rows: [top] 0.2fr [float-top] 100px [pokedex-top] 300px [stats-top] 100px [float-bottom] 200px [pokedex-bottom] 100px [stats-bottom] 1fr [bottom];
   grid-template-areas:
     "header    header    header     header        header  header   header"
@@ -81,7 +82,7 @@ body {
   animation-delay: 3000ms;
   animation-duration: 2000ms;
   animation-direction: forwards;
-  animation-fill-mode: forwards;
+  animation-fill-mode: both;
   z-index: 3;
   /* animation-delay: 500ms; */
 
@@ -108,7 +109,7 @@ body {
   opacity: 0;
   animation-name: genericFadeIn;
   animation-duration: 1000ms;
-  animation-fill-mode: forwards;
+  animation-fill-mode: both;
 
   height: 10%;
   display: flex;
@@ -159,6 +160,12 @@ body {
   border: gray;
   flex-grow: 1;
   border-radius: 15px;
+}
+
+#pokemonPic {
+  animation-name: pokemonAppear;
+  animation-duration: 1000ms;
+  animation-direction: forwards;
 }
 
 #pokemonDisplay {
@@ -214,7 +221,7 @@ body {
   width: 100%;
   animation-name: pokemonAppear;
   animation-duration: 2000ms;
-  animation-fill-mode: forwards;
+  animation-fill-mode: both;
 }
 .pokemonFlicker {
   animation-name: pokemonFlicker;
@@ -225,7 +232,7 @@ body {
   animation-name: flipOutY;
   animation-duration: 1000ms;
   animation-iteration-count: 1;
-  animation-direction: forwards;
+  animation-direction: both;
 }
 
 /* FLOATING STATS */
@@ -244,6 +251,9 @@ body {
   /* background-color: purple; */
   /* width: 300px;
   height: 300px; */
+}
+.activeFilter {
+  border: dotted 2px magenta;
 }
 
 @keyframes screenFadeIn {
@@ -294,6 +304,14 @@ body {
   100% {
     /* transform: rotate(0turn) scale(1); */
     opacity: 1;
+  }
+}
+
+@keyframes flipOutY {
+  0% {
+  }
+  100% {
+    transform: rotateX(90deg);
   }
 }
 
