@@ -129,7 +129,7 @@ $(() => {
       Pokemon.prototype.renderPokemon(pokemonName);
     } else {
       // render a prompt to the DOM:
-      alert(`please enter one of these names: ${allNames.join(' ')}`);
+      // alert(`please enter one of these names: ${allNames.join(' ')}`);
     }
   });
   // to do: put this function closer to Pokemon class:
@@ -146,7 +146,7 @@ $(() => {
     const floatingImage = document.getElementById('floatingGifImage');
     if (floatingImage) {
       const floatingImageParent = floatingImage.parentNode;
-      alert(floatingImageParent);
+      // alert(floatingImageParent);
       floatingImageParent.removeChild(floatingImage);
       // console.log('floatingImage: ', floatingImage);
       // add an exit animation with a duration
@@ -255,7 +255,6 @@ $(() => {
     }
   };
 
-  // BELOW HERE IS WORKING:
   // BACKGROUND ANIMATION:
   function backgroundAnimation() {
     // make an array of the file-names in the folder:

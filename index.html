@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>pokedex</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.css">
     <link rel="stylesheet" type="text/css" href="styles/main-styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="scripts/main-scripts.js"></script>
@@ -38,8 +39,9 @@
         <div id="pokedexWrap" class="slideInUp">
 
             <div id="searchWrapInactive">
-                <input id="search" type="text" placeholder="click button below to fetch pokemon">
+                <input id="search" type="text" placeholder="click button below">
                 <button id="goButton">go</button>
+
             </div>
             <div id="pokemonDisplay">
                 <!-- <button>
@@ -68,8 +70,12 @@
                 <div data="name" id="special-defense">
                     <p>sp defense</p>
                 </div>
+
             </div>
             <button id="preLoadPokemon">Fetch Trainer Chuck's Pokemon</button>
+            <!-- materialize button not working
+                <a class="waves-effect waves-light btn-small">
+                <i class="material-icons left">cloud</i>Fetch Trainer Chuck's Pokemon</a> -->
         </div>
         <div id="floatingStats">
             <div id="statsWrap">

@@ -23,7 +23,7 @@ body {
   margin: auto;
   position: relative;
   display: grid;
-  grid-template-columns: [left] 1fr [float-left] 400px [float-right] 1fr [pdex-left] 450px [pdex-right] 1fr[stats-left] 400px [stats-right] 1fr[right];
+  grid-template-columns: [left] 1fr [float-left] 300px [float-right] 1fr [pdex-left] 400px [pdex-right] 1fr[stats-left] 400px [stats-right] 1fr[right];
   grid-template-rows: [top] 0.2fr [float-top] 100px [pokedex-top] 300px [stats-top] 100px [float-bottom] 200px [pokedex-bottom] 100px [stats-bottom] 1fr [bottom];
   grid-template-areas:
     "header    header    header     header        header  header   header"
@@ -150,6 +150,7 @@ body {
   /* how to change color of default text? */
   flex-grow: 4;
   background-color: gray;
+  height: 1rem;
   border: none;
 }
 #searchWrapInactive button {
@@ -200,6 +201,12 @@ body {
 
 #pokemonStatd .pressed {
   border: dotted magenta 3px;
+}
+
+#preLoadPokemon {
+  border: none;
+  padding: 0.5rem;
+  border-radius: 10px;
 }
 
 .pokemonAppear {
@@ -331,12 +338,12 @@ body {
   #floatingDisplay {
     grid-row-start: 2;
     grid-row-end: 3;
-    background-color: rgba(128, 0, 128, 0.381);
+    /* background-color: rgba(128, 0, 128, 0.381); */
     /* height: 400px; */
   }
   #floatingStats {
     grid-row-start: stats-top;
     grid-row-end: stats-bottom;
-    background-color: rgba(172, 255, 47, 0.442);
+    /* background-color: rgba(172, 255, 47, 0.442); */
   }
 }
